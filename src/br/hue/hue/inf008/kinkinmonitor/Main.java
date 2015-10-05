@@ -1,4 +1,4 @@
-package br.hue.hue.kinkinmonitor;
+package br.hue.hue.inf008.kinkinmonitor;
 
 public class Main {
 

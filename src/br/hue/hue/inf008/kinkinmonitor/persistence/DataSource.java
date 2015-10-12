@@ -50,7 +50,7 @@ public class DataSource {
 		return 0;
 	}
 
-	void close(ResultSet rs) {
+	public void close(ResultSet rs) {
 		try {
 			if (rs != null) {
 				if (rs.getStatement() != null) {
@@ -66,10 +66,46 @@ public class DataSource {
 		}
 	}
 
+	public int fetchNextIdSequence(String seqName) {
+		try {
+			String query = "SELECT NEXTVAL('" + seqName + "')";
+			ResultSet rs = this.executeQuery(query);
+		} catch (Exception ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar buscar o próximo valor da sequence: " + seqName + ".", ex);
+		}
+		return 0;
+	}
+
 	public void initDataBase() {
 		String sqlInit
-			= "CREATE SEQUENCE \"SQ_UNIDADE_EUCLIDIANA\" START 1;\n"
-			+ "CREATE SEQUENCE \"SQ_UNIDADE_MANHATAN\" START 1;\n";
+			= "CREATE SEQUENCE SQ_UNIDADE_EUCLIDIANA START 1;\n"
+			+ "CREATE SEQUENCE SQ_UNIDADE_MANHATAN START 1;\n"
+			+ "CREATE TABLE AREA_MONITORADA(\n"
+			+ "  ID INTEGER NOT NULL,\n"
+			+ "  NOME VARCHAR(250) NOT NULL,\n"
+			+ "  PRIMARY KEY (ID));\n"
+			+ "CREATE TABLE UNIDADE_EUCLIDIANA(\n"
+			+ "  ID INTEGER NOT NULL,\n"
+			+ "  CAMERA BOOLEAN NOT NULL,\n"
+			+ "  MEDIDOR_CH4 BOOLEAN NOT NULL,\n"
+			+ "  MEDIDOR_CO2 BOOLEAN NOT NULL,\n"
+			+ "  TERMOMETRO BOOLEAN NOT NULL,\n"
+			+ "  LATITUDE NUMERIC NOT NULL DEFAULT 0,\n"
+			+ "  LONGITUDE NUMERIC NOT NULL DEFAULT 0,\n"
+			+ "  ID_AREA_MONITORADA INTEGER NOT NULL,\n"
+			+ "  PRIMARY KEY (ID),\n"
+			+ "  FOREIGN KEY (ID_AREA_MONITORADA) REFERENCES AREA_MONITORADA (ID));\n"
+			+ "CREATE TABLE UNIDADE_MANHATAN(\n"
+			+ "  ID INTEGER NOT NULL,\n"
+			+ "  CAMERA BOOLEAN NOT NULL,\n"
+			+ "  MEDIDOR_CH4 BOOLEAN NOT NULL,\n"
+			+ "  MEDIDOR_CO2 BOOLEAN NOT NULL,\n"
+			+ "  TERMOMETRO BOOLEAN NOT NULL,\n"
+			+ "  LATITUDE NUMERIC NOT NULL DEFAULT 0,\n"
+			+ "  LONGITUDE NUMERIC NOT NULL DEFAULT 0,\n"
+			+ "  ID_AREA_MONITORADA INTEGER NOT NULL,\n"
+			+ "  PRIMARY KEY (ID),\n"
+			+ "  FOREIGN KEY (ID_AREA_MONITORADA) REFERENCES AREA_MONITORADA (ID));";
 		this.executeUpdate(sqlInit);
 	}
 

@@ -22,10 +22,10 @@ public class UnidadeEuclidianaDAO implements GenericDAO<UnidadeEuclidiana> {
 			while (rs.next()) {
 				UnidadeEuclidiana undEuclid = new UnidadeEuclidiana();
 				undEuclid.setId(rs.getInt("ID"));
-				undEuclid.setHasCamera(rs.getBoolean("CAMERA"));
-				undEuclid.setHasMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
-				undEuclid.setHasMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
-				undEuclid.setHasTermometro(rs.getBoolean("TERMOMETRO"));
+				undEuclid.setCamera(rs.getBoolean("CAMERA"));
+				undEuclid.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
+				undEuclid.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
+				undEuclid.setTermometro(rs.getBoolean("TERMOMETRO"));
 				undEuclid.setLocalizacao(new PontoLocalizacao(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE")));
 				undEuclidList.add(undEuclid);
 			}
@@ -47,10 +47,10 @@ public class UnidadeEuclidianaDAO implements GenericDAO<UnidadeEuclidiana> {
 			while (rs.next()) {
 				UnidadeEuclidiana undEuclid = new UnidadeEuclidiana();
 				undEuclid.setId(rs.getInt("ID"));
-				undEuclid.setHasCamera(rs.getBoolean("CAMERA"));
-				undEuclid.setHasMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
-				undEuclid.setHasMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
-				undEuclid.setHasTermometro(rs.getBoolean("TERMOMETRO"));
+				undEuclid.setCamera(rs.getBoolean("CAMERA"));
+				undEuclid.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
+				undEuclid.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
+				undEuclid.setTermometro(rs.getBoolean("TERMOMETRO"));
 				undEuclid.setLocalizacao(new PontoLocalizacao(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE")));
 				return undEuclid;
 			}
@@ -71,6 +71,8 @@ public class UnidadeEuclidianaDAO implements GenericDAO<UnidadeEuclidiana> {
 	public void insert(UnidadeEuclidiana unidadeEuclidiana) {
 		Connection dbConnection = null;
 		Statement statement = null;
+
+		unidadeEuclidiana.getId();
 
 		String sql = "insert into unidadeEuclidiana values(" + unidadeEuclidiana.getId() + ")";
 

@@ -6,14 +6,18 @@ public abstract class UnidadeMonitora {
 
 	private double id;
 	private PontoLocalizacao localizacao;
-	private boolean hasCamera, hasTermometro, hasMedidorCO2, hasMedidorCH4;
+	private boolean camera, termometro, medidorCO2, medidorCH4;
 
 	public UnidadeMonitora() {
 		this.localizacao = new PontoLocalizacao();
-		this.hasCamera = this.hasTermometro = this.hasMedidorCO2 = this.hasMedidorCH4 = false;
+		this.camera = this.termometro = this.medidorCO2 = this.medidorCH4 = false;
 	}
 
-	public abstract void mover(PontoLocalizacao local);
+	public abstract void mover(PontoLocalizacao destino);
+
+	protected abstract boolean podeMover(PontoLocalizacao destino);
+
+	protected abstract boolean calcularDistancia(PontoLocalizacao destino);
 
 	public double getId() {
 		return id;
@@ -31,36 +35,36 @@ public abstract class UnidadeMonitora {
 		this.localizacao = localizacao;
 	}
 
-	public boolean isHasCamera() {
-		return hasCamera;
+	public boolean isCamera() {
+		return camera;
 	}
 
-	public void setHasCamera(boolean hasCamera) {
-		this.hasCamera = hasCamera;
+	public void setCamera(boolean camera) {
+		this.camera = camera;
 	}
 
-	public boolean isHasTermometro() {
-		return hasTermometro;
+	public boolean isTermometro() {
+		return termometro;
 	}
 
-	public void setHasTermometro(boolean hasTermometro) {
-		this.hasTermometro = hasTermometro;
+	public void setTermometro(boolean termometro) {
+		this.termometro = termometro;
 	}
 
-	public boolean isHasMedidorCO2() {
-		return hasMedidorCO2;
+	public boolean isMedidorCO2() {
+		return medidorCO2;
 	}
 
-	public void setHasMedidorCO2(boolean hasMedidorCO2) {
-		this.hasMedidorCO2 = hasMedidorCO2;
+	public void setMedidorCO2(boolean medidorCO2) {
+		this.medidorCO2 = medidorCO2;
 	}
 
-	public boolean isHasMedidorCH4() {
-		return hasMedidorCH4;
+	public boolean isMedidorCH4() {
+		return medidorCH4;
 	}
 
-	public void setHasMedidorCH4(boolean hasMedidorCH4) {
-		this.hasMedidorCH4 = hasMedidorCH4;
+	public void setMedidorCH4(boolean medidorCH4) {
+		this.medidorCH4 = medidorCH4;
 	}
 
 }

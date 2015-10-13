@@ -4,12 +4,14 @@ import br.hue.hue.inf008.kinkinmonitor.utils.PontoLocalizacao;
 
 public abstract class UnidadeMonitora {
 
-	private double id;
+	private int id;
 	private PontoLocalizacao localizacao;
 	private boolean camera, termometro, medidorCO2, medidorCH4;
+	private AreaMonitorada areaMonitorada;
 
 	public UnidadeMonitora() {
-		this.localizacao = new PontoLocalizacao();
+		this.localizacao = null;
+		this.areaMonitorada = null;
 		this.camera = this.termometro = this.medidorCO2 = this.medidorCH4 = false;
 	}
 
@@ -19,11 +21,11 @@ public abstract class UnidadeMonitora {
 
 	protected abstract boolean calcularDistancia(PontoLocalizacao destino);
 
-	public double getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -67,4 +69,40 @@ public abstract class UnidadeMonitora {
 		this.medidorCH4 = medidorCH4;
 	}
 
+	public AreaMonitorada getAreaMonitorada() {
+		return areaMonitorada;
+	}
+
+	public void setAreaMonitorada(AreaMonitorada areaMonitorada) {
+		this.areaMonitorada = areaMonitorada;
+	}
+
+	@Override
+	public String toString() {
+		String toString = "Unidade Nº " + id;
+		if (this.getLocalizacao() != null) {
+			toString += ", localização:{" + this.getLocalizacao().getLongitude() + "LAT; " + this.getLocalizacao().getLongitude() + "LONG}";
+		}
+		return toString;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = (31 * hash) + this.getId();
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof UnidadeMonitora)) {
+			return false;
+		}
+		UnidadeMonitora other = (UnidadeMonitora) obj;
+		if (this.getId() == 0) {
+			return this == other;
+		} else {
+			return this.getId() == other.getId();
+		}
+	}
 }

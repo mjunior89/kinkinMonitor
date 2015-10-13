@@ -9,6 +9,11 @@ public class AreaMonitorada {
 	private String nome;
 	private List<UnidadeMonitora> unidades = new ArrayList<>();
 
+	public AreaMonitorada(int id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
+
 	public int getId() {
 		return id;
 	}

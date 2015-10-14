@@ -1,5 +1,6 @@
 package br.hue.hue.inf008.kinkinmonitor.persistence;
 
+import br.hue.hue.inf008.kinkinmonitor.model.UnidadeEuclidiana;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -77,36 +78,57 @@ public class DataSource {
 	}
 
 	public void initDataBase() {
-		String sqlInit
-			= "CREATE SEQUENCE SQ_UNIDADE_EUCLIDIANA START 1;\n"
-			+ "CREATE SEQUENCE SQ_UNIDADE_MANHATTAN START 1;\n"
-			+ "CREATE TABLE AREA_MONITORADA(\n"
-			+ "  ID INTEGER NOT NULL,\n"
-			+ "  NOME VARCHAR(250) NOT NULL,\n"
-			+ "  PRIMARY KEY (ID));\n"
-			+ "CREATE TABLE UNIDADE_EUCLIDIANA(\n"
-			+ "  ID INTEGER NOT NULL,\n"
-			+ "  CAMERA BOOLEAN NOT NULL,\n"
-			+ "  MEDIDOR_CH4 BOOLEAN NOT NULL,\n"
-			+ "  MEDIDOR_CO2 BOOLEAN NOT NULL,\n"
-			+ "  TERMOMETRO BOOLEAN NOT NULL,\n"
-			+ "  LATITUDE NUMERIC NOT NULL DEFAULT 0,\n"
-			+ "  LONGITUDE NUMERIC NOT NULL DEFAULT 0,\n"
-			+ "  ID_AREA_MONITORADA INTEGER NOT NULL,\n"
-			+ "  PRIMARY KEY (ID),\n"
-			+ "  FOREIGN KEY (ID_AREA_MONITORADA) REFERENCES AREA_MONITORADA (ID));\n"
-			+ "CREATE TABLE UNIDADE_MANHATTAN(\n"
-			+ "  ID INTEGER NOT NULL,\n"
-			+ "  CAMERA BOOLEAN NOT NULL,\n"
-			+ "  MEDIDOR_CH4 BOOLEAN NOT NULL,\n"
-			+ "  MEDIDOR_CO2 BOOLEAN NOT NULL,\n"
-			+ "  TERMOMETRO BOOLEAN NOT NULL,\n"
-			+ "  LATITUDE NUMERIC NOT NULL DEFAULT 0,\n"
-			+ "  LONGITUDE NUMERIC NOT NULL DEFAULT 0,\n"
-			+ "  ID_AREA_MONITORADA INTEGER NOT NULL,\n"
-			+ "  PRIMARY KEY (ID),\n"
-			+ "  FOREIGN KEY (ID_AREA_MONITORADA) REFERENCES AREA_MONITORADA (ID));";
-		this.executeUpdate(sqlInit);
+		boolean check = verifyExistingDatatable();
+		if (check) {
+			String sqlInit
+				= "CREATE SEQUENCE SQ_UNIDADE_EUCLIDIANA START 1;\n"
+				+ "CREATE SEQUENCE SQ_UNIDADE_MANHATTAN START 1;\n"
+				+ "CREATE TABLE AREA_MONITORADA(\n"
+				+ "  ID INTEGER NOT NULL,\n"
+				+ "  NOME VARCHAR(250) NOT NULL,\n"
+				+ "  PRIMARY KEY (ID));\n"
+				+ "CREATE TABLE UNIDADE_EUCLIDIANA(\n"
+				+ "  ID INTEGER NOT NULL,\n"
+				+ "  CAMERA BOOLEAN NOT NULL,\n"
+				+ "  MEDIDOR_CH4 BOOLEAN NOT NULL,\n"
+				+ "  MEDIDOR_CO2 BOOLEAN NOT NULL,\n"
+				+ "  TERMOMETRO BOOLEAN NOT NULL,\n"
+				+ "  LATITUDE NUMERIC NOT NULL DEFAULT 0,\n"
+				+ "  LONGITUDE NUMERIC NOT NULL DEFAULT 0,\n"
+				+ "  ID_AREA_MONITORADA INTEGER NOT NULL,\n"
+				+ "  PRIMARY KEY (ID),\n"
+				+ "  FOREIGN KEY (ID_AREA_MONITORADA) REFERENCES AREA_MONITORADA (ID));\n"
+				+ "CREATE TABLE UNIDADE_MANHATTAN(\n"
+				+ "  ID INTEGER NOT NULL,\n"
+				+ "  CAMERA BOOLEAN NOT NULL,\n"
+				+ "  MEDIDOR_CH4 BOOLEAN NOT NULL,\n"
+				+ "  MEDIDOR_CO2 BOOLEAN NOT NULL,\n"
+				+ "  TERMOMETRO BOOLEAN NOT NULL,\n"
+				+ "  LATITUDE NUMERIC NOT NULL DEFAULT 0,\n"
+				+ "  LONGITUDE NUMERIC NOT NULL DEFAULT 0,\n"
+				+ "  ID_AREA_MONITORADA INTEGER NOT NULL,\n"
+				+ "  PRIMARY KEY (ID),\n"
+				+ "  FOREIGN KEY (ID_AREA_MONITORADA) REFERENCES AREA_MONITORADA (ID));";
+			this.executeUpdate(sqlInit);
+		}
+	}
+
+	private boolean verifyExistingDatatable() {
+		String sqlVerify = "SELECT 1 AS RESULT FROM PG_TABLES WHERE TABLENAME ILIKE('AREA_MONITORADA')";
+		DataSource ds = new DataSource();
+		ResultSet rs = null;
+		boolean check = false;
+		try {
+			rs = ds.executeQuery(sqlVerify);
+			while (rs.next()) {
+				check = rs.getInt("RESULT") != 1;
+			}
+		} catch (SQLException e) {
+			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} finally {
+			ds.close(rs);
+		}
+		return check;
 	}
 
 }

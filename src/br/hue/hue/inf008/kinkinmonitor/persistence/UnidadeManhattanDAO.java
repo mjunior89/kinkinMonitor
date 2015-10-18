@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 
 	@Override
-	public List<UnidadeManhattan> listAll() {
+	public List<UnidadeManhattan> listAll() throws SQLException {
 		List<UnidadeManhattan> undManhList = new ArrayList<>();
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
@@ -31,8 +31,9 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 				undManh.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
 				undManhList.add(undManh);
 			}
-		} catch (SQLException e) {
-			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (SQLException ex) {
+			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -40,7 +41,7 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 	}
 
 	@Override
-	public UnidadeManhattan findById(int id) {
+	public UnidadeManhattan findById(int id) throws SQLException {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		try {
@@ -57,8 +58,9 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 				undManh.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
 				return undManh;
 			}
-		} catch (SQLException e) {
-			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (SQLException ex) {
+			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -66,7 +68,7 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 	}
 
 	@Override
-	public UnidadeManhattan findByQuery(String query) {
+	public UnidadeManhattan findByQuery(String query) throws SQLException {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		try {
@@ -82,8 +84,9 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 				undManh.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
 				return undManh;
 			}
-		} catch (SQLException e) {
-			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (SQLException ex) {
+			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -91,7 +94,7 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 	}
 
 	@Override
-	public int insert(UnidadeManhattan unidadeManhattan) {
+	public int insert(UnidadeManhattan unidadeManhattan) throws SQLException {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		int retorno = 0;
@@ -117,8 +120,11 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 			}
 			sql += ")";
 			retorno = ds.executeUpdate(sql);
-		} catch (Exception e) {
-			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (SQLException ex) {
+			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
+		} catch (Exception ex) {
+			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -126,12 +132,12 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 	}
 
 	@Override
-	public int update(UnidadeManhattan unidadeManhattan) {
+	public int update(UnidadeManhattan unidadeManhattan) throws SQLException {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		int retorno = 0;
-		unidadeManhattan.setId(ds.fetchNextIdSequence(UnidadeManhattan.SEQUENCE));
 		try {
+			unidadeManhattan.setId(ds.fetchNextIdSequence(UnidadeManhattan.SEQUENCE));
 			String sql
 				= "UPDATE UNIDADE_MANHATTAN SET CAMERA = " + unidadeManhattan.isCamera()
 				+ ", MEDIDOR_CH4 = " + unidadeManhattan.isMedidorCH4()
@@ -150,8 +156,11 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 			}
 			sql += " WHERE ID = " + unidadeManhattan.getId() + ")";
 			retorno = ds.executeUpdate(sql);
-		} catch (Exception e) {
-			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (SQLException ex) {
+			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
+		} catch (Exception ex) {
+			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -159,15 +168,16 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 	}
 
 	@Override
-	public int delete(UnidadeManhattan unidadeManhattan) {
+	public int delete(UnidadeManhattan unidadeManhattan) throws SQLException {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		int retorno = 0;
 		try {
 			String sql = "DELETE FROM UNIDADE_MANHATTAN WHERE ID=" + unidadeManhattan.getId();
 			retorno = ds.executeUpdate(sql);
-		} catch (Exception e) {
-			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (Exception ex) {
+			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
 		} finally {
 			ds.closeResultSet(rs);
 		}

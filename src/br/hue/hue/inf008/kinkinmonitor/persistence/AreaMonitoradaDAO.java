@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class AreaMonitoradaDAO implements GenericDAO<AreaMonitorada> {
 
 	@Override
-	public List<AreaMonitorada> listAll() {
+	public List<AreaMonitorada> listAll() throws SQLException {
 		List<AreaMonitorada> areaMonList = new ArrayList<>();
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
@@ -24,8 +24,9 @@ public class AreaMonitoradaDAO implements GenericDAO<AreaMonitorada> {
 				areaMon.setNome(rs.getString("NOME"));
 				areaMonList.add(areaMon);
 			}
-		} catch (SQLException e) {
-			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (SQLException ex) {
+			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -33,7 +34,7 @@ public class AreaMonitoradaDAO implements GenericDAO<AreaMonitorada> {
 	}
 
 	@Override
-	public AreaMonitorada findById(int id) {
+	public AreaMonitorada findById(int id) throws SQLException {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		try {
@@ -45,8 +46,9 @@ public class AreaMonitoradaDAO implements GenericDAO<AreaMonitorada> {
 				areaMon.setNome(rs.getString("NOME"));
 				return areaMon;
 			}
-		} catch (SQLException e) {
-			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (SQLException ex) {
+			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -54,7 +56,7 @@ public class AreaMonitoradaDAO implements GenericDAO<AreaMonitorada> {
 	}
 
 	@Override
-	public AreaMonitorada findByQuery(String query) {
+	public AreaMonitorada findByQuery(String query) throws SQLException {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		try {
@@ -65,8 +67,9 @@ public class AreaMonitoradaDAO implements GenericDAO<AreaMonitorada> {
 				areaMon.setNome(rs.getString("NOME"));
 				return areaMon;
 			}
-		} catch (SQLException e) {
-			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (SQLException ex) {
+			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -74,19 +77,20 @@ public class AreaMonitoradaDAO implements GenericDAO<AreaMonitorada> {
 	}
 
 	@Override
-	public int insert(AreaMonitorada areaMonitorada) {
+	public int insert(AreaMonitorada areaMonitorada) throws SQLException {
 		DataSource ds = new DataSource();
 		int retorno = 0;
-		areaMonitorada.setId(ds.fetchNextIdSequence(AreaMonitorada.SEQUENCE));
 		try {
+			areaMonitorada.setId(ds.fetchNextIdSequence(AreaMonitorada.SEQUENCE));
 			String sql
 				= "INSERT INTO AREA_MONITORADA (ID, NOME) VALUES("
 				+ areaMonitorada.getId()
 				+ ", '" + areaMonitorada.getNome()
 				+ "')";
 			retorno = ds.executeUpdate(sql);
-		} catch (Exception e) {
-			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (SQLException ex) {
+			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
 		} finally {
 			ds.closeConnection();
 		}
@@ -94,7 +98,7 @@ public class AreaMonitoradaDAO implements GenericDAO<AreaMonitorada> {
 	}
 
 	@Override
-	public int update(AreaMonitorada areaMonitorada) {
+	public int update(AreaMonitorada areaMonitorada) throws SQLException {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		int retorno = 0;
@@ -104,8 +108,9 @@ public class AreaMonitoradaDAO implements GenericDAO<AreaMonitorada> {
 				= "UPDATE AREA_MONITORADA SET NOME = '" + areaMonitorada.getNome() + "'"
 				+ " WHERE ID = " + areaMonitorada.getId() + ")";
 			retorno = ds.executeUpdate(sql);
-		} catch (Exception e) {
-			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (SQLException ex) {
+			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -113,15 +118,16 @@ public class AreaMonitoradaDAO implements GenericDAO<AreaMonitorada> {
 	}
 
 	@Override
-	public int delete(AreaMonitorada areaMonitorada) {
+	public int delete(AreaMonitorada areaMonitorada) throws SQLException {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		int retorno = 0;
 		try {
 			String sql = "DELETE FROM AREA_MONITORADA WHERE ID=" + areaMonitorada.getId();
 			retorno = ds.executeUpdate(sql);
-		} catch (Exception e) {
-			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
+		} catch (SQLException ex) {
+			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+			throw ex;
 		} finally {
 			ds.closeResultSet(rs);
 		}

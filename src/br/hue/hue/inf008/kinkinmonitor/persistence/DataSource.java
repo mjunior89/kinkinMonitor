@@ -1,6 +1,5 @@
 package br.hue.hue.inf008.kinkinmonitor.persistence;
 
-import br.hue.hue.inf008.kinkinmonitor.model.UnidadeEuclidiana;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -40,7 +39,7 @@ public class DataSource {
 		return null;
 	}
 
-	public int executeUpdate(String query) {
+	public int executeUpdate(String query) throws SQLException {
 		int resultado = 0;
 		try {
 			Connection con = this.createConnection();
@@ -50,11 +49,12 @@ public class DataSource {
 			stmt.close();
 		} catch (SQLException e) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao executar esta operação", e);
+			throw e;
 		}
 		return resultado;
 	}
 
-	public void closeResultSet(ResultSet rs) {
+	public void closeResultSet(ResultSet rs) throws SQLException {
 		try {
 			if (rs != null) {
 				if (rs.getStatement() != null) {
@@ -65,20 +65,22 @@ public class DataSource {
 				}
 				rs.close();
 			}
-		} catch (SQLException ex) {
-			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar fechar a conexão JDBC", ex);
+		} catch (SQLException e) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar fechar a conexão JDBC", e);
+			throw e;
 		}
 	}
 
-	public void closeConnection() {
+	public void closeConnection() throws SQLException {
 		try {
 			connection.close();
-		} catch (SQLException ex) {
-			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar fechar a conexão JDBC", ex);
+		} catch (SQLException e) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar fechar a conexão JDBC", e);
+			throw e;
 		}
 	}
 
-	public int fetchNextIdSequence(String seqName) {
+	public int fetchNextIdSequence(String seqName) throws SQLException {
 		int idValue = 0;
 		ResultSet rs = null;
 		try {
@@ -87,19 +89,22 @@ public class DataSource {
 			while (rs.next()) {
 				idValue = rs.getInt("ID_VAL");
 			}
-		} catch (Exception ex) {
-			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar buscar o próximo valor da sequence: " + seqName + ".", ex);
+		} catch (Exception e) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar buscar o próximo valor da sequence: " + seqName + ".", e);
+			throw e;
 		} finally {
 			this.closeResultSet(rs);
 		}
 		return idValue;
 	}
 
-	public void initDataBase() {
-		boolean check = verifyExistingDatatable();
-		if (!check) {
+	public void initDataBase() throws SQLException {
+		boolean create = true;
+		if (create) {
 			String sqlInit
-				= "CREATE SEQUENCE SQ_UNIDADE_EUCLIDIANA START 1;\n"
+				= "DROP SCHEMA IF EXISTS public CASCADE;\n"
+				+ "CREATE SCHEMA public AUTHORIZATION postgres;"
+				+ "CREATE SEQUENCE SQ_UNIDADE_EUCLIDIANA START 1;\n"
 				+ "CREATE SEQUENCE SQ_UNIDADE_MANHATTAN START 1;\n"
 				+ "CREATE SEQUENCE SQ_AREA_MONITORADA START 1;\n"
 				+ "CREATE TABLE AREA_MONITORADA(\n"
@@ -130,24 +135,6 @@ public class DataSource {
 				+ "  FOREIGN KEY (ID_AREA_MONITORADA) REFERENCES AREA_MONITORADA (ID));";
 			this.executeUpdate(sqlInit);
 		}
-	}
-
-	private boolean verifyExistingDatatable() {
-		String sqlVerify = "SELECT 1 AS RESULT FROM PG_TABLES WHERE TABLENAME ILIKE('AREA_MONITORADA')";
-		DataSource ds = new DataSource();
-		ResultSet rs = null;
-		boolean check = false;
-		try {
-			rs = ds.executeQuery(sqlVerify);
-			while (rs.next()) {
-				check = true;
-			}
-		} catch (SQLException e) {
-			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
-		} finally {
-			ds.closeResultSet(rs);
-		}
-		return check;
 	}
 
 }

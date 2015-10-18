@@ -10,10 +10,10 @@ public interface GenericDAO<T> {
 
 	public T findByQuery(String query);
 
-	public void insert(T domain);
+	public int insert(T domain);
 
-	public void update(T domain);
+	public int update(T domain);
 
-	public void delete(T domain);
+	public int delete(T domain);
 
 }

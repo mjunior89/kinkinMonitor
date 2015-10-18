@@ -15,11 +15,19 @@ public abstract class UnidadeMonitora {
 		this.camera = this.termometro = this.medidorCO2 = this.medidorCH4 = false;
 	}
 
-	public abstract void mover(PontoLocalizacao destino);
+	public boolean mover(PontoLocalizacao destino) {
+		if (this.podeMover(destino)) {
+			this.setLocalizacao(destino);
+			return true;
+		}
+		return false;
+	}
 
-	protected abstract boolean podeMover(PontoLocalizacao destino);
+	protected boolean podeMover(PontoLocalizacao destino) {
+		return !(this.getLocalizacao().equals(destino));
+	}
 
-	protected abstract boolean calcularDistancia(PontoLocalizacao destino);
+	public abstract double calcularDistancia(PontoLocalizacao destino);
 
 	public int getId() {
 		return id;

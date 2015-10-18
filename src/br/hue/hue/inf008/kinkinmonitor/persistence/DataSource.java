@@ -41,17 +41,20 @@ public class DataSource {
 	}
 
 	public int executeUpdate(String query) {
+		int resultado = 0;
 		try {
 			Connection con = this.createConnection();
 			Statement stmt = con.createStatement();
-			return stmt.executeUpdate(query);
+			resultado = stmt.executeUpdate(query);
+			stmt.getConnection().close();
+			stmt.close();
 		} catch (SQLException e) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao executar esta operação", e);
 		}
-		return 0;
+		return resultado;
 	}
 
-	public void close(ResultSet rs) {
+	public void closeResultSet(ResultSet rs) {
 		try {
 			if (rs != null) {
 				if (rs.getStatement() != null) {
@@ -67,22 +70,38 @@ public class DataSource {
 		}
 	}
 
-	public int fetchNextIdSequence(String seqName) {
+	public void closeConnection() {
 		try {
-			String query = "SELECT NEXTVAL('" + seqName + "')";
-			ResultSet rs = this.executeQuery(query);
+			connection.close();
+		} catch (SQLException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar fechar a conexão JDBC", ex);
+		}
+	}
+
+	public int fetchNextIdSequence(String seqName) {
+		int idValue = 0;
+		ResultSet rs = null;
+		try {
+			String query = "SELECT NEXTVAL('" + seqName + "') as ID_VAL";
+			rs = this.executeQuery(query);
+			while (rs.next()) {
+				idValue = rs.getInt("ID_VAL");
+			}
 		} catch (Exception ex) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar buscar o próximo valor da sequence: " + seqName + ".", ex);
+		} finally {
+			this.closeResultSet(rs);
 		}
-		return 0;
+		return idValue;
 	}
 
 	public void initDataBase() {
 		boolean check = verifyExistingDatatable();
-		if (check) {
+		if (!check) {
 			String sqlInit
 				= "CREATE SEQUENCE SQ_UNIDADE_EUCLIDIANA START 1;\n"
 				+ "CREATE SEQUENCE SQ_UNIDADE_MANHATTAN START 1;\n"
+				+ "CREATE SEQUENCE SQ_AREA_MONITORADA START 1;\n"
 				+ "CREATE TABLE AREA_MONITORADA(\n"
 				+ "  ID INTEGER NOT NULL,\n"
 				+ "  NOME VARCHAR(250) NOT NULL,\n"
@@ -121,12 +140,12 @@ public class DataSource {
 		try {
 			rs = ds.executeQuery(sqlVerify);
 			while (rs.next()) {
-				check = rs.getInt("RESULT") != 1;
+				check = true;
 			}
 		} catch (SQLException e) {
 			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", e);
 		} finally {
-			ds.close(rs);
+			ds.closeResultSet(rs);
 		}
 		return check;
 	}

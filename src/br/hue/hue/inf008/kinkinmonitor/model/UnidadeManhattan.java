@@ -7,20 +7,13 @@ public class UnidadeManhattan extends UnidadeMonitora {
 	public static final String SEQUENCE = "SQ_UNIDADE_MANHATTAN";
 
 	@Override
-	public void mover(PontoLocalizacao destino) {
-
+	public double calcularDistancia(PontoLocalizacao destino) {
+		double distancia = 0d;
+		if (this.getLocalizacao() != null && destino != null) {
+			double diffLatitude = this.getLocalizacao().getLatitude() - destino.getLatitude();
+			double diffLongitude = this.getLocalizacao().getLongitude() - destino.getLongitude();
+			distancia = Math.abs(diffLatitude) + Math.abs(diffLongitude);
+		}
+		return distancia;
 	}
-
-	@Override
-	protected boolean podeMover(PontoLocalizacao destino) {
-
-		return false;
-	}
-
-	@Override
-	protected boolean calcularDistancia(PontoLocalizacao destino) {
-
-		return false;
-	}
-
 }

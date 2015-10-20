@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UnidadeEuclidianaDAO implements GenericDAO<UnidadeEuclidiana> {
+public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 
 	@Override
 	public List<UnidadeEuclidiana> listAll() throws SQLException {
@@ -23,6 +23,7 @@ public class UnidadeEuclidianaDAO implements GenericDAO<UnidadeEuclidiana> {
 			while (rs.next()) {
 				UnidadeEuclidiana undEuclid = new UnidadeEuclidiana();
 				undEuclid.setId(rs.getInt("ID"));
+				undEuclid.setNome(rs.getString("NOME"));
 				undEuclid.setCamera(rs.getBoolean("CAMERA"));
 				undEuclid.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undEuclid.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
@@ -50,6 +51,7 @@ public class UnidadeEuclidianaDAO implements GenericDAO<UnidadeEuclidiana> {
 			while (rs.next()) {
 				UnidadeEuclidiana undEuclid = new UnidadeEuclidiana();
 				undEuclid.setId(rs.getInt("ID"));
+				undEuclid.setNome(rs.getString("NOME"));
 				undEuclid.setCamera(rs.getBoolean("CAMERA"));
 				undEuclid.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undEuclid.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
@@ -76,6 +78,7 @@ public class UnidadeEuclidianaDAO implements GenericDAO<UnidadeEuclidiana> {
 			while (rs.next()) {
 				UnidadeEuclidiana undEuclid = new UnidadeEuclidiana();
 				undEuclid.setId(rs.getInt("ID"));
+				undEuclid.setNome(rs.getString("NOME"));
 				undEuclid.setCamera(rs.getBoolean("CAMERA"));
 				undEuclid.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undEuclid.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
@@ -101,8 +104,9 @@ public class UnidadeEuclidianaDAO implements GenericDAO<UnidadeEuclidiana> {
 		try {
 			unidadeEuclidiana.setId(ds.fetchNextIdSequence(UnidadeEuclidiana.SEQUENCE));
 			String sql
-				= "INSERT INTO UNIDADE_EUCLIDIANA (ID, CAMERA, MEDIDOR_CH4, MEDIDOR_CO2, TERMOMETRO, LATITUDE, LONGITUDE, ID_AREA_MONITORADA) VALUES("
+				= "INSERT INTO UNIDADE_EUCLIDIANA (ID, NOME, CAMERA, MEDIDOR_CH4, MEDIDOR_CO2, TERMOMETRO, LATITUDE, LONGITUDE, ID_AREA_MONITORADA) VALUES("
 				+ unidadeEuclidiana.getId()
+				+ ", " + unidadeEuclidiana.getNome()
 				+ ", " + unidadeEuclidiana.isCamera()
 				+ ", " + unidadeEuclidiana.isMedidorCH4()
 				+ ", " + unidadeEuclidiana.isMedidorCO2()
@@ -139,7 +143,8 @@ public class UnidadeEuclidianaDAO implements GenericDAO<UnidadeEuclidiana> {
 		unidadeEuclidiana.setId(ds.fetchNextIdSequence(UnidadeEuclidiana.SEQUENCE));
 		try {
 			String sql
-				= "UPDATE UNIDADE_EUCLIDIANA SET CAMERA = " + unidadeEuclidiana.isCamera()
+				= "UPDATE UNIDADE_EUCLIDIANA SET NOME = " + unidadeEuclidiana.getNome()
+				+ ", CAMERA = " + unidadeEuclidiana.isCamera()
 				+ ", MEDIDOR_CH4 = " + unidadeEuclidiana.isMedidorCH4()
 				+ ", MEDIDOR_CO2 = " + unidadeEuclidiana.isMedidorCO2()
 				+ ", TERMOMETRO = " + unidadeEuclidiana.isTermometro();

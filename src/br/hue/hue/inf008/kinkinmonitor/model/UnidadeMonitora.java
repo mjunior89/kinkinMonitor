@@ -5,11 +5,13 @@ import br.hue.hue.inf008.kinkinmonitor.utils.PontoLocalizacao;
 public abstract class UnidadeMonitora {
 
 	private int id;
+	private String nome;
 	private PontoLocalizacao localizacao;
 	private boolean camera, termometro, medidorCO2, medidorCH4;
 	private AreaMonitorada areaMonitorada;
 
 	public UnidadeMonitora() {
+		this.nome = null;
 		this.localizacao = null;
 		this.areaMonitorada = null;
 		this.camera = this.termometro = this.medidorCO2 = this.medidorCH4 = false;
@@ -35,6 +37,14 @@ public abstract class UnidadeMonitora {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public PontoLocalizacao getLocalizacao() {
@@ -87,7 +97,7 @@ public abstract class UnidadeMonitora {
 
 	@Override
 	public String toString() {
-		String toString = "Unidade Nº " + id;
+		String toString = "Unidade:  " + this.nome;
 		if (this.getLocalizacao() != null) {
 			toString += ", localização:{" + this.getLocalizacao().getLongitude() + "LAT; " + this.getLocalizacao().getLongitude() + "LONG}";
 		}
@@ -98,6 +108,7 @@ public abstract class UnidadeMonitora {
 	public int hashCode() {
 		int hash = 7;
 		hash = (31 * hash) + this.getId();
+		hash = (31 * hash) + this.getNome().hashCode();
 		return hash;
 	}
 
@@ -110,7 +121,7 @@ public abstract class UnidadeMonitora {
 		if (this.getId() == 0) {
 			return this == other;
 		} else {
-			return this.getId() == other.getId();
+			return this.getId() == other.getId() && this.getNome().equals(other.getNome());
 		}
 	}
 }

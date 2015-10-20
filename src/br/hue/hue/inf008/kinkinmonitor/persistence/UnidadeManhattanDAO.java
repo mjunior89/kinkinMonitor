@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
+public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 
 	@Override
 	public List<UnidadeManhattan> listAll() throws SQLException {
@@ -23,6 +23,7 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 			while (rs.next()) {
 				UnidadeManhattan undManh = new UnidadeManhattan();
 				undManh.setId(rs.getInt("ID"));
+				undManh.setNome(rs.getString("NOME"));
 				undManh.setCamera(rs.getBoolean("CAMERA"));
 				undManh.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undManh.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
@@ -50,6 +51,7 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 			while (rs.next()) {
 				UnidadeManhattan undManh = new UnidadeManhattan();
 				undManh.setId(rs.getInt("ID"));
+				undManh.setNome(rs.getString("NOME"));
 				undManh.setCamera(rs.getBoolean("CAMERA"));
 				undManh.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undManh.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
@@ -76,6 +78,7 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 			while (rs.next()) {
 				UnidadeManhattan undManh = new UnidadeManhattan();
 				undManh.setId(rs.getInt("ID"));
+				undManh.setNome(rs.getString("NOME"));
 				undManh.setCamera(rs.getBoolean("CAMERA"));
 				undManh.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undManh.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
@@ -101,8 +104,9 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 		unidadeManhattan.setId(ds.fetchNextIdSequence(UnidadeManhattan.SEQUENCE));
 		try {
 			String sql
-				= "INSERT INTO UNIDADE_MANHATTAN (ID, CAMERA, MEDIDOR_CH4, MEDIDOR_CO2, TERMOMETRO, LATITUDE, LONGITUDE, ID_AREA_MONITORADA) VALUES("
+				= "INSERT INTO UNIDADE_MANHATTAN (ID, NOME, CAMERA, MEDIDOR_CH4, MEDIDOR_CO2, TERMOMETRO, LATITUDE, LONGITUDE, ID_AREA_MONITORADA) VALUES("
 				+ unidadeManhattan.getId()
+				+ ", " + unidadeManhattan.getNome()
 				+ ", " + unidadeManhattan.isCamera()
 				+ ", " + unidadeManhattan.isMedidorCH4()
 				+ ", " + unidadeManhattan.isMedidorCO2()
@@ -139,7 +143,8 @@ public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 		try {
 			unidadeManhattan.setId(ds.fetchNextIdSequence(UnidadeManhattan.SEQUENCE));
 			String sql
-				= "UPDATE UNIDADE_MANHATTAN SET CAMERA = " + unidadeManhattan.isCamera()
+				= "UPDATE UNIDADE_MANHATTAN SET NOME = " + unidadeManhattan.getNome()
+				+ ", CAMERA = " + unidadeManhattan.isCamera()
 				+ ", MEDIDOR_CH4 = " + unidadeManhattan.isMedidorCH4()
 				+ ", MEDIDOR_CO2 = " + unidadeManhattan.isMedidorCO2()
 				+ ", TERMOMETRO = " + unidadeManhattan.isTermometro();

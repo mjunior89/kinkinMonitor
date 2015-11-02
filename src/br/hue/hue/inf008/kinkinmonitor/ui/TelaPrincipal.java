@@ -8,6 +8,7 @@ import br.hue.hue.inf008.kinkinmonitor.model.UnidadeMonitora;
 import br.hue.hue.inf008.kinkinmonitor.persistence.DataSource;
 import br.hue.hue.inf008.kinkinmonitor.ui.model.AreaMonitoradaTableModel;
 import br.hue.hue.inf008.kinkinmonitor.ui.model.UnidadeMonitoraTableModel;
+import java.awt.HeadlessException;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -310,6 +311,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	}
 
     private void btnViewAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewAMActionPerformed
+		loadUMTableModel();
+		btnUMCriar.setEnabled(true);
+		panelUMs.setEnabled(true);
+
+    }//GEN-LAST:event_btnViewAMActionPerformed
+
+	private void loadUMTableModel() throws HeadlessException {
 		AreaMonitorada areaSelecionada = (AreaMonitorada) tabelaAM.getModel().getValueAt(tabelaAM.getSelectedRow(), 0);
 		try {
 			areaSelecionada.getUnidades().addAll(new UnidadeEuclidianaController().listAllByAreaMonitorada(areaSelecionada));
@@ -319,12 +327,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			JOptionPane.showMessageDialog(null, "Falha na listagem das Unidades Monitoras.\n\n" + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 		UnidadeMonitoraTableModel dtm = new UnidadeMonitoraTableModel(areaSelecionada.getUnidades());
-		tabelaUM.setModel(dtm);
-		btnUMCriar.setEnabled(true);
 		panelUMs.setBorder(javax.swing.BorderFactory.createTitledBorder("Unidades Monitoras - Área: " + areaSelecionada.getNome()));
-		panelUMs.setEnabled(true);
-
-    }//GEN-LAST:event_btnViewAMActionPerformed
+		tabelaUM.setModel(dtm);
+	}
 
     private void btnEditAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditAMActionPerformed
 		AreaMonitorada areaSelecionada = (AreaMonitorada) tabelaAM.getModel().getValueAt(tabelaAM.getSelectedRow(), 0);
@@ -397,7 +402,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				try {
-//					loadAMTableModel();
+					loadUMTableModel();
 				} catch (Exception ex) {
 					Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
 				}

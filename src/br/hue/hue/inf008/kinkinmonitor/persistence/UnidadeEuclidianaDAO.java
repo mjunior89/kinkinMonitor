@@ -40,12 +40,40 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 		return undEuclidList;
 	}
 
-	@Override
-	public UnidadeEuclidiana findById(String id) throws Exception {
+	public List<UnidadeEuclidiana> listAllByAreaMonitorada(AreaMonitorada area) throws Exception {
+		List<UnidadeEuclidiana> undEuclidList = new ArrayList<>();
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		try {
-			String query = "SELECT * FROM UNIDADE_EUCLIDIANA WHERE NOME=" + id;
+			String query = "SELECT * FROM UNIDADE_EUCLIDIANA WHERE ID_AREA_MONITORADA = " + area.getId();
+			rs = ds.executeQuery(query);
+			while (rs.next()) {
+				UnidadeEuclidiana undEuclid = new UnidadeEuclidiana();
+				undEuclid.setId(rs.getInt("ID"));
+				undEuclid.setNome(rs.getString("NOME"));
+				undEuclid.setCamera(rs.getBoolean("CAMERA"));
+				undEuclid.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
+				undEuclid.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
+				undEuclid.setTermometro(rs.getBoolean("TERMOMETRO"));
+				undEuclid.setLocalizacao(new PontoLocalizacao(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE")));
+				undEuclid.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
+				undEuclidList.add(undEuclid);
+			}
+		} catch (Exception e) {
+			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Ocorreu um erro na listagem de todas as Unidades Euclidianas.", e);
+			throw new Exception("Ocorreu um erro na listagem de todas as Unidades Euclidianas.", e);
+		} finally {
+			ds.closeResultSet(rs);
+		}
+		return undEuclidList;
+	}
+
+	@Override
+	public UnidadeEuclidiana findByNome(String nome) throws Exception {
+		DataSource ds = new DataSource();
+		ResultSet rs = null;
+		try {
+			String query = "SELECT * FROM UNIDADE_EUCLIDIANA WHERE NOME=" + nome;
 			rs = ds.executeQuery(query);
 			while (rs.next()) {
 				UnidadeEuclidiana undEuclid = new UnidadeEuclidiana();

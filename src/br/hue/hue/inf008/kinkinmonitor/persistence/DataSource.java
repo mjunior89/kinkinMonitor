@@ -1,5 +1,7 @@
 package br.hue.hue.inf008.kinkinmonitor.persistence;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,18 +14,24 @@ import java.util.logging.Logger;
 public class DataSource {
 
 	private Connection connection = null;
+	private Properties props = new Properties();
+
+	public DataSource() {
+		try {
+			props = new Properties();
+			props.load(new FileReader("kinkinApp.properties"));
+		} catch (IOException ex) {
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Erro ao carregar as propriedades da aplicação.", ex);
+		}
+	}
 
 	public Connection createConnection() throws Exception {
 		try {
 			// Verifica a existência da classe responsável pelo drive de conexão do postgresql
 			Class.forName("org.postgresql.Driver");
-			String url = "jdbc:postgresql://localhost:5432/kinkin_monitor";
-			Properties props = new Properties();
-			props.setProperty("user", "postgres");
-			props.setProperty("password", "123456");
-			connection = DriverManager.getConnection(url, props);
+			connection = DriverManager.getConnection(props.getProperty("url"), props);
 		} catch (ClassNotFoundException | SQLException e) {
-			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar conectar com a base de dados.", e);
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao conectar com a base de dados.", e);
 			throw new Exception("Ocorreu um erro ao tentar conectar com a base de dados.", e);
 		}
 		return connection;
@@ -76,7 +84,7 @@ public class DataSource {
 				stmnt.close();
 			}
 		} catch (Exception e) {
-			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar fechar a conexão com a 'Base de dados'.", e);
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao fechar a conexão com a 'Base de dados'.", e);
 			throw new Exception("Ocorreu um erro ao tentar fechar a conexão com a 'Base de dados'.", e);
 		}
 	}
@@ -87,7 +95,7 @@ public class DataSource {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar fechar a conexão com a 'Base de dados'.", e);
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao fechar a conexão com a 'Base de dados'.", e);
 			throw new Exception("Ocorreu um erro ao tentar fechar a conexão com a 'Base de dados'.", e);
 		}
 	}
@@ -102,7 +110,7 @@ public class DataSource {
 				idValue = rs.getInt("ID_VAL");
 			}
 		} catch (SQLException e) {
-			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar buscar o próximo valor da sequence: " + seqName + ".", e);
+			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao buscar o próximo valor da sequence: " + seqName + ".", e);
 			throw new Exception("Ocorreu um erro ao tentar buscar o próximo valor da sequence: " + seqName + ".", e);
 		} finally {
 			this.closeResultSet(rs);
@@ -111,7 +119,7 @@ public class DataSource {
 	}
 
 	public void initDataBase() throws Exception {
-		boolean create = true;
+		boolean create = Boolean.valueOf(props.getProperty("eraseDB"));
 		if (create) {
 			try {
 				String sqlInit
@@ -122,11 +130,11 @@ public class DataSource {
 					+ "CREATE SEQUENCE SQ_AREA_MONITORADA START 1;\n"
 					+ "CREATE TABLE AREA_MONITORADA(\n"
 					+ "  ID INTEGER NOT NULL,\n"
-					+ "  NOME VARCHAR(250) NOT NULL,\n"
+					+ "  NOME VARCHAR(150) NOT NULL,\n"
 					+ "  PRIMARY KEY (ID));\n"
 					+ "CREATE TABLE UNIDADE_EUCLIDIANA(\n"
 					+ "  ID INTEGER NOT NULL,\n"
-					+ "  NOME VARCHAR(250) NOT NULL,\n"
+					+ "  NOME VARCHAR(150) NOT NULL,\n"
 					+ "  CAMERA BOOLEAN NOT NULL,\n"
 					+ "  MEDIDOR_CH4 BOOLEAN NOT NULL,\n"
 					+ "  MEDIDOR_CO2 BOOLEAN NOT NULL,\n"
@@ -138,7 +146,7 @@ public class DataSource {
 					+ "  FOREIGN KEY (ID_AREA_MONITORADA) REFERENCES AREA_MONITORADA (ID));\n"
 					+ "CREATE TABLE UNIDADE_MANHATTAN(\n"
 					+ "  ID INTEGER NOT NULL,\n"
-					+ "  NOME VARCHAR(250) NOT NULL,\n"
+					+ "  NOME VARCHAR(150) NOT NULL,\n"
 					+ "  CAMERA BOOLEAN NOT NULL,\n"
 					+ "  MEDIDOR_CH4 BOOLEAN NOT NULL,\n"
 					+ "  MEDIDOR_CO2 BOOLEAN NOT NULL,\n"
@@ -150,7 +158,7 @@ public class DataSource {
 					+ "  FOREIGN KEY (ID_AREA_MONITORADA) REFERENCES AREA_MONITORADA (ID));";
 				this.executeUpdate(sqlInit);
 			} catch (Exception e) {
-				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao tentar inicializar a 'Base de dados'.", e);
+				Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao inicializar a 'Base de dados'.", e);
 				throw new Exception("Ocorreu um erro ao tentar inicializar a 'Base de dados'.", e);
 			}
 		}

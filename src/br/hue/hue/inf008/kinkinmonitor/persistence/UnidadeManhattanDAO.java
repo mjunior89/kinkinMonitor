@@ -40,12 +40,40 @@ public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 		return undManhList;
 	}
 
-	@Override
-	public UnidadeManhattan findById(String id) throws Exception {
+	public List<UnidadeManhattan> listAllByAreaMonitorada(AreaMonitorada area) throws Exception {
+		List<UnidadeManhattan> undManhList = new ArrayList<>();
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		try {
-			String query = "SELECT * FROM UNIDADE_MANHATTAN WHERE NOME=" + id;
+			String query = "SELECT * FROM UNIDADE_MANHATTAN WHERE ID_AREA_MONITORADA = " + area.getId();
+			rs = ds.executeQuery(query);
+			while (rs.next()) {
+				UnidadeManhattan undManh = new UnidadeManhattan();
+				undManh.setId(rs.getInt("ID"));
+				undManh.setNome(rs.getString("NOME"));
+				undManh.setCamera(rs.getBoolean("CAMERA"));
+				undManh.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
+				undManh.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
+				undManh.setTermometro(rs.getBoolean("TERMOMETRO"));
+				undManh.setLocalizacao(new PontoLocalizacao(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE")));
+				undManh.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
+				undManhList.add(undManh);
+			}
+		} catch (Exception e) {
+			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Ocorreu um erro na listagem de todas as Unidades Manhattans.", e);
+			throw new Exception("Ocorreu um erro na listagem de todas as Unidades Manhattans.", e);
+		} finally {
+			ds.closeResultSet(rs);
+		}
+		return undManhList;
+	}
+
+	@Override
+	public UnidadeManhattan findByNome(String nome) throws Exception {
+		DataSource ds = new DataSource();
+		ResultSet rs = null;
+		try {
+			String query = "SELECT * FROM UNIDADE_MANHATTAN WHERE NOME=" + nome;
 			rs = ds.executeQuery(query);
 			while (rs.next()) {
 				UnidadeManhattan undManh = new UnidadeManhattan();

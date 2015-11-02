@@ -6,7 +6,7 @@ public abstract class GenericDAO<T> {
 
 	public abstract List<T> listAll() throws Exception;
 
-	public abstract T findById(String id) throws Exception;
+	public abstract T findByNome(String nome) throws Exception;
 
 	public abstract int insert(T domain) throws Exception;
 

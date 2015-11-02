@@ -33,11 +33,11 @@ public class AreaMonitoradaDAO extends GenericDAO<AreaMonitorada> {
 	}
 
 	@Override
-	public AreaMonitorada findById(String id) throws Exception {
+	public AreaMonitorada findByNome(String nome) throws Exception {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		try {
-			String query = "SELECT * FROM AREA_MONITORADA WHERE NOME=" + id;
+			String query = "SELECT * FROM AREA_MONITORADA WHERE NOME=" + nome;
 			rs = ds.executeQuery(query);
 			while (rs.next()) {
 				AreaMonitorada areaMon = new AreaMonitorada();
@@ -80,11 +80,10 @@ public class AreaMonitoradaDAO extends GenericDAO<AreaMonitorada> {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		int retorno = 0;
-		areaMonitorada.setId(ds.fetchNextIdSequence(AreaMonitorada.SEQUENCE));
 		try {
 			String sql
 				= "UPDATE AREA_MONITORADA SET NOME = '" + areaMonitorada.getNome() + "'"
-				+ " WHERE ID = " + areaMonitorada.getId() + ")";
+				+ " WHERE ID = " + areaMonitorada.getId();
 			retorno = ds.executeUpdate(sql);
 		} catch (Exception e) {
 			Logger.getLogger(AreaMonitorada.class.getName()).log(Level.SEVERE, "Ocorreu um erro na atualização dessa Área Monitorada.", e);

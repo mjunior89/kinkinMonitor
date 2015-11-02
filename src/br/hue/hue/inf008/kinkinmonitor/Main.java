@@ -1,7 +1,6 @@
 package br.hue.hue.inf008.kinkinmonitor;
 
 import br.hue.hue.inf008.kinkinmonitor.persistence.DataSource;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,10 +10,9 @@ public class Main {
 		DataSource ds = new DataSource();
 		try {
 			ds.initDataBase();
-		} catch (SQLException ex) {
-			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (Exception ex) {
+			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "Deu pau na inicialização da 'Base de dados'.", ex);
 		}
-		IntegrationSPEC tests = new IntegrationSPEC();
 
 	}
 

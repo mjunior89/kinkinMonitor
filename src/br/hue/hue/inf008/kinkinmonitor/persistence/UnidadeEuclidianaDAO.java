@@ -4,7 +4,6 @@ import br.hue.hue.inf008.kinkinmonitor.model.AreaMonitorada;
 import br.hue.hue.inf008.kinkinmonitor.model.UnidadeEuclidiana;
 import br.hue.hue.inf008.kinkinmonitor.utils.PontoLocalizacao;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -13,7 +12,7 @@ import java.util.logging.Logger;
 public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 
 	@Override
-	public List<UnidadeEuclidiana> listAll() throws SQLException {
+	public List<UnidadeEuclidiana> listAll() throws Exception {
 		List<UnidadeEuclidiana> undEuclidList = new ArrayList<>();
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
@@ -32,9 +31,9 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 				undEuclid.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
 				undEuclidList.add(undEuclid);
 			}
-		} catch (SQLException ex) {
-			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
-			throw ex;
+		} catch (Exception e) {
+			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Ocorreu um erro na listagem de todas as Unidades Euclidianas.", e);
+			throw new Exception("Ocorreu um erro na listagem de todas as Unidades Euclidianas.", e);
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -42,11 +41,11 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 	}
 
 	@Override
-	public UnidadeEuclidiana findById(int id) throws SQLException {
+	public UnidadeEuclidiana findById(String id) throws Exception {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		try {
-			String query = "SELECT * FROM UNIDADE_EUCLIDIANA WHERE ID=" + id;
+			String query = "SELECT * FROM UNIDADE_EUCLIDIANA WHERE NOME=" + id;
 			rs = ds.executeQuery(query);
 			while (rs.next()) {
 				UnidadeEuclidiana undEuclid = new UnidadeEuclidiana();
@@ -60,9 +59,9 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 				undEuclid.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
 				return undEuclid;
 			}
-		} catch (SQLException ex) {
-			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
-			throw ex;
+		} catch (Exception e) {
+			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Ocorreu um erro na consulta dessa Unidade Euclidiana.", e);
+			throw new Exception("Ocorreu um erro na consulta dessa Unidade Euclidiana.", e);
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -70,34 +69,7 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 	}
 
 	@Override
-	public UnidadeEuclidiana findByQuery(String query) throws SQLException {
-		DataSource ds = new DataSource();
-		ResultSet rs = null;
-		try {
-			rs = ds.executeQuery(query);
-			while (rs.next()) {
-				UnidadeEuclidiana undEuclid = new UnidadeEuclidiana();
-				undEuclid.setId(rs.getInt("ID"));
-				undEuclid.setNome(rs.getString("NOME"));
-				undEuclid.setCamera(rs.getBoolean("CAMERA"));
-				undEuclid.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
-				undEuclid.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
-				undEuclid.setTermometro(rs.getBoolean("TERMOMETRO"));
-				undEuclid.setLocalizacao(new PontoLocalizacao(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE")));
-				undEuclid.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
-				return undEuclid;
-			}
-		} catch (SQLException ex) {
-			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
-			throw ex;
-		} finally {
-			ds.closeResultSet(rs);
-		}
-		return null;
-	}
-
-	@Override
-	public int insert(UnidadeEuclidiana unidadeEuclidiana) throws SQLException {
+	public int insert(UnidadeEuclidiana unidadeEuclidiana) throws Exception {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		int retorno = 0;
@@ -124,11 +96,9 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 			}
 			sql += ")";
 			retorno = ds.executeUpdate(sql);
-		} catch (SQLException ex) {
-			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
-			throw ex;
-		} catch (Exception ex) {
-			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+		} catch (Exception e) {
+			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Ocorreu um erro na criação dessa Unidade Euclidiana.", e);
+			throw new Exception("Ocorreu um erro na criação dessa Unidade Euclidiana.", e);
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -136,7 +106,7 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 	}
 
 	@Override
-	public int update(UnidadeEuclidiana unidadeEuclidiana) throws SQLException {
+	public int update(UnidadeEuclidiana unidadeEuclidiana) throws Exception {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		int retorno = 0;
@@ -161,11 +131,9 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 			}
 			sql += " WHERE ID = " + unidadeEuclidiana.getId() + ")";
 			retorno = ds.executeUpdate(sql);
-		} catch (SQLException ex) {
-			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
-			throw ex;
-		} catch (Exception ex) {
-			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
+		} catch (Exception e) {
+			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Ocorreu um erro na atualização dessa Unidade Euclidiana.", e);
+			throw new Exception("Ocorreu um erro na atualização dessa Unidade Euclidiana.", e);
 		} finally {
 			ds.closeResultSet(rs);
 		}
@@ -173,16 +141,16 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 	}
 
 	@Override
-	public int delete(UnidadeEuclidiana unidadeEuclidiana) throws SQLException {
+	public int delete(UnidadeEuclidiana unidadeEuclidiana) throws Exception {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		int retorno = 0;
 		try {
 			String sql = "DELETE FROM UNIDADE_EUCLIDIANA WHERE ID=" + unidadeEuclidiana.getId();
 			retorno = ds.executeUpdate(sql);
-		} catch (Exception ex) {
-			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Mensagem de exceção vem aqui!!", ex);
-			throw ex;
+		} catch (Exception e) {
+			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Ocorreu um erro na exclusão dessa Unidade Euclidiana.", e);
+			throw new Exception("Ocorreu um erro na exclusão dessa Unidade Euclidiana.", e);
 		} finally {
 			ds.closeResultSet(rs);
 		}

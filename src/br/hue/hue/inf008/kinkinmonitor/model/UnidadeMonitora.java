@@ -1,8 +1,18 @@
 package br.hue.hue.inf008.kinkinmonitor.model;
 
 import br.hue.hue.inf008.kinkinmonitor.utils.PontoLocalizacao;
+import java.util.ArrayList;
 
 public abstract class UnidadeMonitora {
+
+	public static enum EnumUnidadeMonitora {
+
+		CAMERA,
+		MEDIDORCH4,
+		MEDIDORCO2,
+		TERMOMETRO;
+
+	}
 
 	private int id;
 	private String nome;
@@ -30,6 +40,38 @@ public abstract class UnidadeMonitora {
 	}
 
 	public abstract double calcularDistancia(PontoLocalizacao destino);
+
+	public boolean possuiConfiguracaoMinima(ArrayList<EnumUnidadeMonitora> configuracoes) {
+		boolean hasMinimalConfs = true;
+		for (EnumUnidadeMonitora conf : configuracoes) {
+			switch (conf) {
+				case CAMERA: {
+					hasMinimalConfs = hasMinimalConfs && this.isCamera();
+					break;
+				}
+				case MEDIDORCH4: {
+					hasMinimalConfs = hasMinimalConfs && this.isMedidorCH4();
+					break;
+				}
+				case MEDIDORCO2: {
+					hasMinimalConfs = hasMinimalConfs && this.isMedidorCO2();
+					break;
+				}
+				case TERMOMETRO: {
+					hasMinimalConfs = hasMinimalConfs && this.isTermometro();
+					break;
+				}
+				default: {
+					hasMinimalConfs = false;
+					break;
+				}
+			}
+			if (!hasMinimalConfs) {
+				break;
+			}
+		}
+		return hasMinimalConfs;
+	}
 
 	public int getId() {
 		return id;
@@ -124,4 +166,5 @@ public abstract class UnidadeMonitora {
 			return this.getId() == other.getId() && this.getNome().equals(other.getNome());
 		}
 	}
+
 }

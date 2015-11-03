@@ -7,7 +7,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class UnidadeMonitoraTableModel extends AbstractTableModel {
 
-	private List<UnidadeMonitora> unidades;
+	private List<UnidadeMonitora> unidades = null;
 
 	public UnidadeMonitoraTableModel(List<UnidadeMonitora> unidades) {
 		this.unidades = new ArrayList<>(unidades);
@@ -15,7 +15,8 @@ public class UnidadeMonitoraTableModel extends AbstractTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return "";
+		String[] colunas = new String[]{"Identificador", "Câmera", "Termômetro", "Medidor CO2", "Medidor CH4", "Localização", "tipo"};
+		return colunas[column];
 	}
 
 	@Override
@@ -25,12 +26,14 @@ public class UnidadeMonitoraTableModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 1;
+		return 7;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return this.unidades.get(rowIndex);
+		UnidadeMonitora unidade = this.unidades.get(rowIndex);
+		String valor = new String[]{unidade.getNome(), (unidade.isCamera() ? "Sim" : "Não"), (unidade.isTermometro() ? "Sim" : "Não"), (unidade.isMedidorCO2() ? "Sim" : "Não"), (unidade.isMedidorCH4() ? "Sim" : "Não"), unidade.getLocalizacao().toString(), unidade.getClass().getCanonicalName()}[columnIndex];
+		return valor;
 	}
 
 }

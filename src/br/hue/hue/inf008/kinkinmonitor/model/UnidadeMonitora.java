@@ -141,7 +141,7 @@ public abstract class UnidadeMonitora {
 	public String toString() {
 		String toString = "Unidade:  " + this.nome;
 		if (this.getLocalizacao() != null) {
-			toString += ", localização:{" + this.getLocalizacao().getLongitude() + "LAT; " + this.getLocalizacao().getLongitude() + "LONG}";
+			toString += ", Localização: " + this.getLocalizacao().getLongitude() + "Lat., " + this.getLocalizacao().getLongitude() + "Long.";
 		}
 		return toString;
 	}

@@ -27,7 +27,7 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 				undEuclid.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undEuclid.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
 				undEuclid.setTermometro(rs.getBoolean("TERMOMETRO"));
-				undEuclid.setLocalizacao(new PontoLocalizacao(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE")));
+				undEuclid.setLocalizacao(new PontoLocalizacao(rs.getInt("LATITUDE"), rs.getInt("LONGITUDE")));
 				undEuclid.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
 				undEuclidList.add(undEuclid);
 			}
@@ -55,7 +55,7 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 				undEuclid.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undEuclid.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
 				undEuclid.setTermometro(rs.getBoolean("TERMOMETRO"));
-				undEuclid.setLocalizacao(new PontoLocalizacao(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE")));
+				undEuclid.setLocalizacao(new PontoLocalizacao(rs.getInt("LATITUDE"), rs.getInt("LONGITUDE")));
 				undEuclid.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
 				undEuclidList.add(undEuclid);
 			}
@@ -73,7 +73,7 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		try {
-			String query = "SELECT * FROM UNIDADE_EUCLIDIANA WHERE NOME=" + nome;
+			String query = "SELECT * FROM UNIDADE_EUCLIDIANA WHERE NOME='" + nome + "'";
 			rs = ds.executeQuery(query);
 			while (rs.next()) {
 				UnidadeEuclidiana undEuclid = new UnidadeEuclidiana();
@@ -83,7 +83,7 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 				undEuclid.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undEuclid.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
 				undEuclid.setTermometro(rs.getBoolean("TERMOMETRO"));
-				undEuclid.setLocalizacao(new PontoLocalizacao(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE")));
+				undEuclid.setLocalizacao(new PontoLocalizacao(rs.getInt("LATITUDE"), rs.getInt("LONGITUDE")));
 				undEuclid.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
 				return undEuclid;
 			}
@@ -106,7 +106,7 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 			String sql
 				= "INSERT INTO UNIDADE_EUCLIDIANA (ID, NOME, CAMERA, MEDIDOR_CH4, MEDIDOR_CO2, TERMOMETRO, LATITUDE, LONGITUDE, ID_AREA_MONITORADA) VALUES("
 				+ unidadeEuclidiana.getId()
-				+ ", " + unidadeEuclidiana.getNome()
+				+ ", '" + unidadeEuclidiana.getNome() + "'"
 				+ ", " + unidadeEuclidiana.isCamera()
 				+ ", " + unidadeEuclidiana.isMedidorCH4()
 				+ ", " + unidadeEuclidiana.isMedidorCO2()
@@ -138,10 +138,9 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		int retorno = 0;
-		unidadeEuclidiana.setId(ds.fetchNextIdSequence(UnidadeEuclidiana.SEQUENCE));
 		try {
 			String sql
-				= "UPDATE UNIDADE_EUCLIDIANA SET NOME = " + unidadeEuclidiana.getNome()
+				= "UPDATE UNIDADE_EUCLIDIANA SET NOME = '" + unidadeEuclidiana.getNome() + "'"
 				+ ", CAMERA = " + unidadeEuclidiana.isCamera()
 				+ ", MEDIDOR_CH4 = " + unidadeEuclidiana.isMedidorCH4()
 				+ ", MEDIDOR_CO2 = " + unidadeEuclidiana.isMedidorCO2()
@@ -152,12 +151,12 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 			} else {
 				throw new Exception(); // Exception impedindo nullidade do campo
 			}
-			if (unidadeEuclidiana.getLocalizacao() != null) {
+			if (unidadeEuclidiana.getAreaMonitorada() != null) {
 				sql += ", ID_AREA_MONITORADA = " + unidadeEuclidiana.getAreaMonitorada().getId();
 			} else {
 				throw new Exception(); // Exception impedindo nullidade do campo
 			}
-			sql += " WHERE ID = " + unidadeEuclidiana.getId() + ")";
+			sql += " WHERE ID = " + unidadeEuclidiana.getId();
 			retorno = ds.executeUpdate(sql);
 		} catch (Exception e) {
 			Logger.getLogger(UnidadeEuclidiana.class.getName()).log(Level.SEVERE, "Ocorreu um erro na atualização dessa Unidade Euclidiana.", e);

@@ -97,20 +97,24 @@ public class AreaMonitoradaCEForm extends javax.swing.JDialog {
 		int n = JOptionPane.showOptionDialog(this, "Confirma os dados entrados no formulário?", "Confirmação",
 			JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 		if (n == 0) {
+			String operacao = "Operação";
 			try {
 				area.setNome(this.jtfNome.getText());
 				if (area.getId() != 0) {
+					operacao = "Inclusão";
 					n = new AreaMonitoradaController().update(area);
 				} else {
+					operacao = "Atualização";
 					n = new AreaMonitoradaController().insert(area);
 				}
 				if (n == 1) {
-					JOptionPane.showMessageDialog(this, "Inclusão realisada com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(this, operacao + " realisada com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+					Logger.getLogger(AreaMonitoradaCEForm.class.getName()).log(Level.INFO, operacao + " realisada com sucesso.", area);
 				}
 				this.setVisible(false);
 				this.dispose();
 			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(this, "Inclusão não realisada.\n\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, operacao + "  não realisada.\n\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 				Logger.getLogger(AreaMonitoradaCEForm.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
 			}
 		}

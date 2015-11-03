@@ -3,19 +3,20 @@ package br.hue.hue.inf008.kinkinmonitor.ui;
 import br.hue.hue.inf008.kinkinmonitor.controller.UnidadeMonitoraController;
 import br.hue.hue.inf008.kinkinmonitor.model.AreaMonitorada;
 import br.hue.hue.inf008.kinkinmonitor.model.UnidadeEuclidiana;
-import br.hue.hue.inf008.kinkinmonitor.model.UnidadeManhattan;
 import br.hue.hue.inf008.kinkinmonitor.model.UnidadeMonitora;
+import br.hue.hue.inf008.kinkinmonitor.model.UnidadeMonitora.EnumUnidadeMonitora;
 import br.hue.hue.inf008.kinkinmonitor.utils.PontoLocalizacao;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class UnidadeMonitoraCEForm extends javax.swing.JDialog {
+public class UnidadeMonitoraMForm extends javax.swing.JDialog {
 
 	private AreaMonitorada area;
 	private UnidadeMonitora unidade;
 
-	public UnidadeMonitoraCEForm(java.awt.Frame parent, boolean modal) {
+	public UnidadeMonitoraMForm(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
 	}
@@ -34,30 +35,20 @@ public class UnidadeMonitoraCEForm extends javax.swing.JDialog {
 
 	public void setUnidade(UnidadeMonitora unidade) {
 		this.unidade = unidade;
-		this.txtNome.setText(unidade.getNome());
 		this.chbCamera.setSelected(unidade.isCamera());
 		this.chbMedidorCH4.setSelected(unidade.isMedidorCH4());
 		this.chbMedidorCO2.setSelected(unidade.isMedidorCO2());
 		this.chbTermometro.setSelected(unidade.isTermometro());
 		this.spLatitude.setValue(unidade.getLocalizacao().getLatitude());
 		this.spLongitude.setValue(unidade.getLocalizacao().getLongitude());
-		if (unidade.getClass().getCanonicalName().equalsIgnoreCase("br.hue.hue.inf008.kinkinmonitor.model.UnidadeEuclidiana")) {
-			cbTipoUnidade.setSelectedIndex(0);
-		} else if (unidade.getClass().getCanonicalName().equalsIgnoreCase("br.hue.hue.inf008.kinkinmonitor.model.UnidadeManhattan")) {
-			cbTipoUnidade.setSelectedIndex(1);
-		}
 	}
 
 	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        txtNome = new javax.swing.JTextField();
         btnConfirmar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        cbTipoUnidade = new javax.swing.JComboBox();
         jPanel1 = new javax.swing.JPanel();
         chbMedidorCO2 = new javax.swing.JCheckBox();
         chbMedidorCH4 = new javax.swing.JCheckBox();
@@ -77,13 +68,8 @@ public class UnidadeMonitoraCEForm extends javax.swing.JDialog {
         setIconImage(null);
         setResizable(false);
 
-        jLabel1.setText("Identificador");
-        jLabel1.setToolTipText("Identificador");
-
-        txtNome.setMaximumSize(new java.awt.Dimension(6, 20));
-
-        btnConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/accept.png"))); // NOI18N
-        btnConfirmar.setText("Confirmar");
+        btnConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/magnifier.png"))); // NOI18N
+        btnConfirmar.setText("Consultar");
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConfirmarActionPerformed(evt);
@@ -97,10 +83,6 @@ public class UnidadeMonitoraCEForm extends javax.swing.JDialog {
                 btnCancelarActionPerformed(evt);
             }
         });
-
-        jLabel2.setText("Tipo Unidade");
-
-        cbTipoUnidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Unidade Euclidiana", "Unidade Manhattan" }));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuração da Unidade Monitora"));
 
@@ -209,7 +191,7 @@ public class UnidadeMonitoraCEForm extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(spLatitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(spLongitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -222,42 +204,20 @@ public class UnidadeMonitoraCEForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(cbTipoUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(122, 122, 122))))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(btnConfirmar)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(btnCancelar))
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(cbTipoUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -271,42 +231,63 @@ public class UnidadeMonitoraCEForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-		Object[] options = {"Sim", "Não"};
-		int n = JOptionPane.showOptionDialog(this, "Confirma os dados entrados no formulário?", "Confirmação",
-			JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-		if (n == 0) {
-			String operacao = "Operação";
-			try {
-				if (unidade != null) {
-					operacao = "Atualização";
-					buildUnidadeMonitora();
-					n = new UnidadeMonitoraController(unidade.getClass()).update(unidade);
-				} else {
-					operacao = "Inclusão";
-					if (cbTipoUnidade.getSelectedIndex() == 0) {
-						unidade = new UnidadeEuclidiana();
-						buildUnidadeMonitora();
-					} else {
-						unidade = new UnidadeManhattan();
-						buildUnidadeMonitora();
-					}
-					new UnidadeMonitoraController(unidade.getClass()).insert(unidade);
+		buildUnidadeMonitora();
+		ArrayList<EnumUnidadeMonitora> confsMinima = buildMinimalConfiguraions();
+		double distancia = Double.MAX_VALUE;
+		UnidadeMonitora unidadeSelecionada = null;
+		for (UnidadeMonitora unit : area.getUnidades()) {
+			if (unit.possuiConfiguracaoMinima(confsMinima)) {
+				if (distancia == 0d || distancia > unit.calcularDistancia(unidade.getLocalizacao())) {
+					distancia = unit.calcularDistancia(unidade.getLocalizacao());
+					unidadeSelecionada = unit;
 				}
-				if (n == 1) {
-					JOptionPane.showMessageDialog(this, operacao + " realisada com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-				}
-				this.setVisible(false);
-				this.dispose();
-			} catch (Exception e) {
-				unidade = null;
-				JOptionPane.showMessageDialog(this, operacao + " não realisada.\n\n" + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-				Logger.getLogger(UnidadeMonitoraCEForm.class.getName()).log(Level.SEVERE, e.getMessage(), e);
 			}
+		}
+		if (unidadeSelecionada != null) {
+			Object[] options = {"Sim", "Não"};
+
+			int n = JOptionPane.showOptionDialog(this, "A Unidade: '" + unidadeSelecionada.getNome() + "', é a mais próxima do local informado\ncom as configurações mínimas selecionadas.\nDeseja move-la para o local?", "Confirmação",
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+			if (n == 0) {
+				try {
+					unidadeSelecionada.setLocalizacao(unidade.getLocalizacao());
+					int r = new UnidadeMonitoraController(unidadeSelecionada.getClass()).update(unidadeSelecionada);
+					if (r > 0) {
+						JOptionPane.showMessageDialog(this, "Operação realisada com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+						Logger.getLogger(UnidadeMonitoraMForm.class.getName()).log(Level.INFO, "Operação realisada com sucesso.", unidadeSelecionada);
+					}
+					this.setVisible(false);
+					this.dispose();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, "Erro inesperado. Operação não realisada.\n\n" + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+					Logger.getLogger(UnidadeMonitoraMForm.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+				}
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Não há Unidades diponíveis ou que atenda as configurações mínimas..", "Informação", JOptionPane.WARNING_MESSAGE);
+			Logger.getLogger(UnidadeMonitoraMForm.class.getName()).log(Level.INFO, "", unidadeSelecionada);
 		}
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
+	private ArrayList<EnumUnidadeMonitora> buildMinimalConfiguraions() {
+		ArrayList<EnumUnidadeMonitora> confsMinima = new ArrayList<>(0);
+		if (unidade.isCamera()) {
+			confsMinima.add(EnumUnidadeMonitora.CAMERA);
+		}
+		if (unidade.isMedidorCH4()) {
+			confsMinima.add(EnumUnidadeMonitora.MEDIDORCH4);
+		}
+		if (unidade.isMedidorCO2()) {
+			confsMinima.add(EnumUnidadeMonitora.MEDIDORCO2);
+		}
+		if (unidade.isTermometro()) {
+			confsMinima.add(EnumUnidadeMonitora.TERMOMETRO);
+		}
+		return confsMinima;
+	}
+
 	private void buildUnidadeMonitora() throws NumberFormatException {
-		unidade.setNome(this.txtNome.getText());
+		unidade = new UnidadeEuclidiana();
 		PontoLocalizacao location = new PontoLocalizacao(Integer.valueOf(spLatitude.getValue().toString()), Integer.valueOf(spLongitude.getValue().toString()));
 		unidade.setLocalizacao(location);
 		unidade.setCamera(this.chbCamera.isSelected());
@@ -323,13 +304,10 @@ public class UnidadeMonitoraCEForm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
-    protected javax.swing.JComboBox cbTipoUnidade;
     private javax.swing.JCheckBox chbCamera;
     private javax.swing.JCheckBox chbMedidorCH4;
     private javax.swing.JCheckBox chbMedidorCO2;
     private javax.swing.JCheckBox chbTermometro;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -340,6 +318,5 @@ public class UnidadeMonitoraCEForm extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSpinner spLatitude;
     private javax.swing.JSpinner spLongitude;
-    private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 }

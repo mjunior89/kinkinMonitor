@@ -45,7 +45,7 @@ public class AreaMonitorada {
 
 	@Override
 	public String toString() {
-		return "Área Monitorada: '" + this.getNome() + "'";
+		return "Área Monitorada: " + this.getNome();
 	}
 
 	@Override

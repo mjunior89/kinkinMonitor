@@ -27,7 +27,7 @@ public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 				undManh.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undManh.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
 				undManh.setTermometro(rs.getBoolean("TERMOMETRO"));
-				undManh.setLocalizacao(new PontoLocalizacao(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE")));
+				undManh.setLocalizacao(new PontoLocalizacao(rs.getInt("LATITUDE"), rs.getInt("LONGITUDE")));
 				undManh.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
 				undManhList.add(undManh);
 			}
@@ -55,7 +55,7 @@ public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 				undManh.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undManh.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
 				undManh.setTermometro(rs.getBoolean("TERMOMETRO"));
-				undManh.setLocalizacao(new PontoLocalizacao(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE")));
+				undManh.setLocalizacao(new PontoLocalizacao(rs.getInt("LATITUDE"), rs.getInt("LONGITUDE")));
 				undManh.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
 				undManhList.add(undManh);
 			}
@@ -73,7 +73,7 @@ public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 		DataSource ds = new DataSource();
 		ResultSet rs = null;
 		try {
-			String query = "SELECT * FROM UNIDADE_MANHATTAN WHERE NOME=" + nome;
+			String query = "SELECT * FROM UNIDADE_MANHATTAN WHERE NOME='" + nome + "'";
 			rs = ds.executeQuery(query);
 			while (rs.next()) {
 				UnidadeManhattan undManh = new UnidadeManhattan();
@@ -83,7 +83,7 @@ public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 				undManh.setMedidorCH4(rs.getBoolean("MEDIDOR_CH4"));
 				undManh.setMedidorCO2(rs.getBoolean("MEDIDOR_CO2"));
 				undManh.setTermometro(rs.getBoolean("TERMOMETRO"));
-				undManh.setLocalizacao(new PontoLocalizacao(rs.getDouble("LATITUDE"), rs.getDouble("LONGITUDE")));
+				undManh.setLocalizacao(new PontoLocalizacao(rs.getInt("LATITUDE"), rs.getInt("LONGITUDE")));
 				undManh.setAreaMonitorada(new AreaMonitorada(rs.getInt("ID_AREA_MONITORADA"), null));
 				return undManh;
 			}
@@ -106,7 +106,7 @@ public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 			String sql
 				= "INSERT INTO UNIDADE_MANHATTAN (ID, NOME, CAMERA, MEDIDOR_CH4, MEDIDOR_CO2, TERMOMETRO, LATITUDE, LONGITUDE, ID_AREA_MONITORADA) VALUES("
 				+ unidadeManhattan.getId()
-				+ ", " + unidadeManhattan.getNome()
+				+ ", '" + unidadeManhattan.getNome() + "'"
 				+ ", " + unidadeManhattan.isCamera()
 				+ ", " + unidadeManhattan.isMedidorCH4()
 				+ ", " + unidadeManhattan.isMedidorCO2()
@@ -139,9 +139,8 @@ public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 		ResultSet rs = null;
 		int retorno = 0;
 		try {
-			unidadeManhattan.setId(ds.fetchNextIdSequence(UnidadeManhattan.SEQUENCE));
 			String sql
-				= "UPDATE UNIDADE_MANHATTAN SET NOME = " + unidadeManhattan.getNome()
+				= "UPDATE UNIDADE_MANHATTAN SET NOME = '" + unidadeManhattan.getNome() + "'"
 				+ ", CAMERA = " + unidadeManhattan.isCamera()
 				+ ", MEDIDOR_CH4 = " + unidadeManhattan.isMedidorCH4()
 				+ ", MEDIDOR_CO2 = " + unidadeManhattan.isMedidorCO2()
@@ -152,12 +151,12 @@ public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 			} else {
 				throw new Exception(); // Exception impedindo nullidade do campo
 			}
-			if (unidadeManhattan.getLocalizacao() != null) {
+			if (unidadeManhattan.getAreaMonitorada() != null) {
 				sql += ", ID_AREA_MONITORADA = " + unidadeManhattan.getAreaMonitorada().getId();
 			} else {
 				throw new Exception(); // Exception impedindo nullidade do campo
 			}
-			sql += " WHERE ID = " + unidadeManhattan.getId() + ")";
+			sql += " WHERE ID = " + unidadeManhattan.getId();
 			retorno = ds.executeUpdate(sql);
 		} catch (Exception e) {
 			Logger.getLogger(UnidadeManhattan.class.getName()).log(Level.SEVERE, "Ocorreu um erro na atualização dessa Unidade Manhattan.", e);

@@ -6,12 +6,10 @@ import java.util.ArrayList;
 public abstract class UnidadeMonitora {
 
 	public static enum EnumUnidadeMonitora {
-
 		CAMERA,
 		MEDIDORCH4,
 		MEDIDORCO2,
 		TERMOMETRO;
-
 	}
 
 	private int id;
@@ -150,7 +148,6 @@ public abstract class UnidadeMonitora {
 	public int hashCode() {
 		int hash = 7;
 		hash = (31 * hash) + this.getId();
-		hash = (31 * hash) + this.getNome().hashCode();
 		return hash;
 	}
 
@@ -163,7 +160,7 @@ public abstract class UnidadeMonitora {
 		if (this.getId() == 0) {
 			return this == other;
 		} else {
-			return this.getId() == other.getId() && this.getNome().equals(other.getNome());
+			return this.getId() == other.getId();
 		}
 	}
 

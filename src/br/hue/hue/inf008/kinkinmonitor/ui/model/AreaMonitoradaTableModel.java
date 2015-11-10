@@ -1,12 +1,15 @@
 package br.hue.hue.inf008.kinkinmonitor.ui.model;
 
-import br.hue.hue.inf008.kinkinmonitor.model.AreaMonitorada;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
+
+import br.hue.hue.inf008.kinkinmonitor.model.AreaMonitorada;
 
 public class AreaMonitoradaTableModel extends AbstractTableModel {
 
+	private static final long serialVersionUID = 1L;
 	private List<AreaMonitorada> areas;
 
 	public AreaMonitoradaTableModel(List<AreaMonitorada> areas) {

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
+public class UnidadeManhattanDAO implements GenericDAO<UnidadeManhattan> {
 
 	@Override
 	public List<UnidadeManhattan> listAll() throws Exception {
@@ -115,12 +115,12 @@ public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 				sql += ", " + unidadeManhattan.getLocalizacao().getLatitude()
 					+ ", " + unidadeManhattan.getLocalizacao().getLongitude();
 			} else {
-				throw new Exception(); // Exception impedindo nullidade do campo
+				throw new Exception("Erro na criação da Unidade Monitora, Localização não informada."); // Exception impedindo nullidade do campo
 			}
-			if (unidadeManhattan.getLocalizacao() != null) {
+			if (unidadeManhattan.getAreaMonitorada() != null) {
 				sql += ", " + unidadeManhattan.getAreaMonitorada().getId();
 			} else {
-				throw new Exception(); // Exception impedindo nullidade do campo
+				throw new Exception("Erro na criação da Unidade Monitora, Área Monitorada não selecionada."); // Exception impedindo nullidade do campo
 			}
 			sql += ")";
 			retorno = ds.executeUpdate(sql);
@@ -140,7 +140,7 @@ public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 		int retorno = 0;
 		try {
 			String sql
-				= "UPDATE UNIDADE_MANHATTAN SET NOME = '" + unidadeManhattan.getNome() + "'"
+				= "UPDATE UNIDADE_MANHATTAN SET NOME = '"+ unidadeManhattan.getNome() + "'"
 				+ ", CAMERA = " + unidadeManhattan.isCamera()
 				+ ", MEDIDOR_CH4 = " + unidadeManhattan.isMedidorCH4()
 				+ ", MEDIDOR_CO2 = " + unidadeManhattan.isMedidorCO2()
@@ -149,12 +149,12 @@ public class UnidadeManhattanDAO extends GenericDAO<UnidadeManhattan> {
 				sql += ", LATITUDE = " + unidadeManhattan.getLocalizacao().getLatitude()
 					+ ", LONGITUDE = " + unidadeManhattan.getLocalizacao().getLongitude();
 			} else {
-				throw new Exception(); // Exception impedindo nullidade do campo
+				throw new Exception("Erro na criação da Unidade Monitora, Localização não informada."); // Exception impedindo nullidade do campo
 			}
 			if (unidadeManhattan.getAreaMonitorada() != null) {
 				sql += ", ID_AREA_MONITORADA = " + unidadeManhattan.getAreaMonitorada().getId();
 			} else {
-				throw new Exception(); // Exception impedindo nullidade do campo
+				throw new Exception("Erro na criação da Unidade Monitora, Área Monitorada não selecionada."); // Exception impedindo nullidade do campo
 			}
 			sql += " WHERE ID = " + unidadeManhattan.getId();
 			retorno = ds.executeUpdate(sql);

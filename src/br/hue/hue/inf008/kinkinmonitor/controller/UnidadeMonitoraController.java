@@ -1,9 +1,10 @@
 package br.hue.hue.inf008.kinkinmonitor.controller;
 
+import java.util.List;
+
 import br.hue.hue.inf008.kinkinmonitor.model.AreaMonitorada;
 import br.hue.hue.inf008.kinkinmonitor.model.UnidadeEuclidiana;
 import br.hue.hue.inf008.kinkinmonitor.model.UnidadeManhattan;
-import java.util.List;
 
 public class UnidadeMonitoraController<T> implements IController<T> {
 
@@ -39,12 +40,11 @@ public class UnidadeMonitoraController<T> implements IController<T> {
 
 	@Override
 	public T findById(String nome) throws Exception {
-		if (typeParameterClass.equals(UnidadeEuclidiana.class)) {
-			return (T) unidadeEuclidianaController.findById(nome);
-		} else if (typeParameterClass.equals(UnidadeManhattan.class)) {
-			return (T) unidadeManhattanController.findById(nome);
+		T unidade = (T) unidadeEuclidianaController.findById(nome);
+		if (unidade == null) {
+			unidade = (T) unidadeManhattanController.findById(nome);
 		}
-		return null;
+		return unidade;
 	}
 
 	@Override

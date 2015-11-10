@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AreaMonitoradaDAO extends GenericDAO<AreaMonitorada> {
+public class AreaMonitoradaDAO implements GenericDAO<AreaMonitorada> {
 
 	@Override
 	public List<AreaMonitorada> listAll() throws Exception {

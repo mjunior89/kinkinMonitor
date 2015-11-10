@@ -13,6 +13,7 @@ import br.hue.hue.inf008.kinkinmonitor.model.UnidadeEuclidiana;
 import br.hue.hue.inf008.kinkinmonitor.model.UnidadeMonitora;
 import br.hue.hue.inf008.kinkinmonitor.model.UnidadeMonitora.EnumUnidadeMonitora;
 import br.hue.hue.inf008.kinkinmonitor.utils.PontoLocalizacao;
+import java.awt.Toolkit;
 
 public class UnidadeMonitoraMForm {
 
@@ -49,8 +50,6 @@ public class UnidadeMonitoraMForm {
 	}
 
 	@SuppressWarnings("unchecked")
-	// <editor-fold defaultstate="collapsed" desc="Generated
-	// Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
 
 		frame = new JDialog();
@@ -71,12 +70,11 @@ public class UnidadeMonitoraMForm {
 		spLatitude = new javax.swing.JSpinner();
 		spLongitude = new javax.swing.JSpinner();
 
-		frame.setTitle("Incluir Unidade Monitora");
-		frame.setIconImage(null);
+		frame.setTitle("Monitorar");
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(UnidadeMonitoraMForm.class.getResource("/br/hue/hue/inf008/kinkinmonitor/resources/transmit.png")));
 		frame.setResizable(false);
 
-		btnConfirmar.setIcon(new javax.swing.ImageIcon(
-				getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/magnifier.png"))); // NOI18N
+		btnConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/magnifier.png"))); 
 		btnConfirmar.setText("Consultar");
 		btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,8 +82,7 @@ public class UnidadeMonitoraMForm {
 			}
 		});
 
-		btnCancelar.setIcon(new javax.swing.ImageIcon(
-				getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/cancel.png"))); // NOI18N
+		btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/cancel.png"))); 
 		btnCancelar.setText("Cancelar");
 		btnCancelar.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,67 +100,57 @@ public class UnidadeMonitoraMForm {
 
 		chbCamera.setText("Câmera");
 
-		jLabel3.setIcon(new javax.swing.ImageIcon(
-				getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/Camera.png"))); // NOI18N
+		jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/Camera.png"))); 
 
-		jLabel4.setIcon(new javax.swing.ImageIcon(
-				getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/CO2.png"))); // NOI18N
+		jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/CO2.png"))); 
 
-		jLabel5.setIcon(new javax.swing.ImageIcon(
-				getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/CH4.png"))); // NOI18N
+		jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/CH4.png"))); 
 
-		jLabel6.setIcon(new javax.swing.ImageIcon(
-				getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/Thermometer.png"))); // NOI18N
+		jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/hue/hue/inf008/kinkinmonitor/resources/Thermometer.png"))); 
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
 		jPanel1.setLayout(jPanel1Layout);
-		jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-						jPanel1Layout.createSequentialGroup().addContainerGap()
-								.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-										.addComponent(jLabel3).addComponent(jLabel6))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(chbCamera).addComponent(chbTermometro))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-								.addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(chbMedidorCO2).addComponent(chbMedidorCH4))
-						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel1Layout.createSequentialGroup().addGroup(jPanel1Layout
-						.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(jPanel1Layout.createSequentialGroup().addGap(19, 19, 19).addComponent(chbMedidorCO2))
-						.addGroup(jPanel1Layout.createSequentialGroup()
-								.addGroup(jPanel1Layout
-										.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-										.addGroup(jPanel1Layout.createSequentialGroup().addGap(19, 19, 19)
-												.addComponent(chbCamera).addGap(9, 9, 9))
-								.addGroup(jPanel1Layout.createSequentialGroup().addContainerGap()
-										.addGroup(jPanel1Layout
-												.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-												.addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+		jPanel1Layout
+				.setHorizontalGroup(
+						jPanel1Layout
+								.createParallelGroup(
+										javax.swing.GroupLayout.Alignment.LEADING)
+								.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+										jPanel1Layout.createSequentialGroup().addContainerGap()
+												.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(jLabel3).addComponent(jLabel6))
+												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+												.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(chbCamera).addComponent(chbTermometro))
+												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+												.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+														.addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+														.addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+				.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(chbMedidorCO2).addComponent(chbMedidorCH4))
+				.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		jPanel1Layout
+				.setVerticalGroup(
+						jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addGroup(jPanel1Layout.createSequentialGroup()
+										.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+												.addGroup(jPanel1Layout.createSequentialGroup().addGap(19, 19, 19).addComponent(chbMedidorCO2))
+												.addGroup(jPanel1Layout.createSequentialGroup()
+														.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+																.addGroup(jPanel1Layout.createSequentialGroup().addGap(19, 19, 19).addComponent(chbCamera).addGap(9, 9, 9))
+																.addGroup(jPanel1Layout.createSequentialGroup().addContainerGap()
+																		.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+																				.addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+																						Short.MAX_VALUE)
+																		.addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 								.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 										.addGroup(jPanel1Layout.createSequentialGroup().addGap(26, 26, 26)
-												.addGroup(jPanel1Layout
-														.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-														.addComponent(chbTermometro).addComponent(chbMedidorCH4)))
-										.addGroup(jPanel1Layout.createSequentialGroup().addGap(18, 18, 18).addComponent(
-												jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
+												.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING).addComponent(chbTermometro)
+														.addComponent(chbMedidorCH4)))
+										.addGroup(jPanel1Layout.createSequentialGroup().addGap(18, 18, 18).addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE,
 												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 										.addGroup(jPanel1Layout.createSequentialGroup()
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-														javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 												.addComponent(jLabel5)))))
-						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+										.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
 		jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Localização"));
 
@@ -179,66 +166,46 @@ public class UnidadeMonitoraMForm {
 
 		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
 		jPanel2.setLayout(jPanel2Layout);
-		jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel2Layout.createSequentialGroup()
-						.addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-								.addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(spLatitude))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED,
-								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-								.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-										jPanel2Layout.createSequentialGroup()
-												.addComponent(spLongitude, javax.swing.GroupLayout.PREFERRED_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.PREFERRED_SIZE)
-												.addContainerGap()))));
 		jPanel2Layout
-				.setVerticalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-								.addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-										.addComponent(jLabel8).addComponent(jLabel7))
+				.setHorizontalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(jPanel2Layout.createSequentialGroup()
+								.addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+										.addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(spLatitude))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+								.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+										.addComponent(spLongitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addContainerGap()))));
+		jPanel2Layout.setVerticalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+				jPanel2Layout.createSequentialGroup().addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel8).addComponent(jLabel7))
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
 						.addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(spLatitude, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(spLongitude, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))));
+								.addComponent(spLatitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(spLongitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))));
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(frame.getContentPane());
 		frame.getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(
-				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(layout.createSequentialGroup().addContainerGap()
-								.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-										.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-												.addGroup(layout.createSequentialGroup().addComponent(btnConfirmar)
-														.addPreferredGap(
-																javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup().addContainerGap()
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+										.addGroup(layout.createSequentialGroup().addComponent(btnConfirmar).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 												.addComponent(btnCancelar))
-								.addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+				.addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
 				.addContainerGap(12, Short.MAX_VALUE)));
 		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup().addContainerGap()
-						.addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-				.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-						.addComponent(btnConfirmar).addComponent(btnCancelar)).addContainerGap()));
+						.addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(btnConfirmar).addComponent(btnCancelar)).addContainerGap()));
 
 		frame.pack();
-	}// </editor-fold>//GEN-END:initComponents
+	}
 
-	private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnConfirmarActionPerformed
+	private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {
 		buildUnidadeMonitora();
 		ArrayList<EnumUnidadeMonitora> confsMinima = buildMinimalConfiguraions();
 		double distancia = Double.MAX_VALUE;
@@ -255,35 +222,28 @@ public class UnidadeMonitoraMForm {
 			Object[] options = { "Sim", "Não" };
 
 			int n = JOptionPane.showOptionDialog(frame,
-					"A Unidade: '" + unidadeSelecionada.getNome()
-							+ "', é a mais próxima do local informado\ncom as configurações mínimas selecionadas.\nDeseja move-la para o local?",
-					"Confirmação", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
-					options[1]);
+					"A Unidade: '" + unidadeSelecionada.getNome() + "', é a mais próxima do local informado\ncom as configurações mínimas selecionadas.\nDeseja move-la para o local?",
+					"Confirmação", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 			if (n == 0) {
 				try {
 					unidadeSelecionada.setLocalizacao(unidade.getLocalizacao());
 					int r = new UnidadeMonitoraController(unidadeSelecionada.getClass()).update(unidadeSelecionada);
 					if (r > 0) {
-						JOptionPane.showMessageDialog(frame, "Operação realisada com sucesso.", "Sucesso",
-								JOptionPane.INFORMATION_MESSAGE);
-						Logger.getLogger(UnidadeMonitoraMForm.class.getName()).log(Level.INFO,
-								"Operação realisada com sucesso.", unidadeSelecionada);
+						JOptionPane.showMessageDialog(frame, "Operação realisada com sucesso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+						Logger.getLogger(UnidadeMonitoraMForm.class.getName()).log(Level.INFO, "Operação realisada com sucesso.", unidadeSelecionada);
 					}
 					frame.setVisible(false);
 					frame.dispose();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(frame,
-							"Erro inesperado. Operação não realisada.\n\n" + e.getMessage(), "Erro",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(frame, "Erro inesperado. Operação não realisada.\n\n" + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 					Logger.getLogger(UnidadeMonitoraMForm.class.getName()).log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		} else {
-			JOptionPane.showMessageDialog(frame, "Não há Unidades diponíveis ou que atenda as configurações mínimas..",
-					"Informação", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "Não há Unidades diponíveis ou que atenda as configurações mínimas..", "Informação", JOptionPane.WARNING_MESSAGE);
 			Logger.getLogger(UnidadeMonitoraMForm.class.getName()).log(Level.INFO, "", unidadeSelecionada);
 		}
-	}// GEN-LAST:event_btnConfirmarActionPerformed
+	}
 
 	private ArrayList<EnumUnidadeMonitora> buildMinimalConfiguraions() {
 		ArrayList<EnumUnidadeMonitora> confsMinima = new ArrayList<>(0);
@@ -304,8 +264,7 @@ public class UnidadeMonitoraMForm {
 
 	private void buildUnidadeMonitora() throws NumberFormatException {
 		unidade = new UnidadeEuclidiana();
-		PontoLocalizacao location = new PontoLocalizacao(Integer.valueOf(spLatitude.getValue().toString()),
-				Integer.valueOf(spLongitude.getValue().toString()));
+		PontoLocalizacao location = new PontoLocalizacao(Integer.valueOf(spLatitude.getValue().toString()), Integer.valueOf(spLongitude.getValue().toString()));
 		unidade.setLocalizacao(location);
 		unidade.setCamera(this.chbCamera.isSelected());
 		unidade.setMedidorCH4(this.chbMedidorCH4.isSelected());
@@ -314,11 +273,10 @@ public class UnidadeMonitoraMForm {
 		unidade.setAreaMonitorada(area);
 	}
 
-	private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCancelarActionPerformed
+	private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {
 		frame.setVisible(false);
-	}// GEN-LAST:event_btnCancelarActionPerformed
+	}
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton btnCancelar;
 	private javax.swing.JButton btnConfirmar;
 	private javax.swing.JCheckBox chbCamera;
@@ -335,5 +293,4 @@ public class UnidadeMonitoraMForm {
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JSpinner spLatitude;
 	private javax.swing.JSpinner spLongitude;
-	// End of variables declaration//GEN-END:variables
 }

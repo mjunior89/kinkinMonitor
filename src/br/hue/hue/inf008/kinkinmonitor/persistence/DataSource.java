@@ -3,6 +3,7 @@ package br.hue.hue.inf008.kinkinmonitor.persistence;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,8 +29,8 @@ public class DataSource {
 	public Connection createConnection() throws Exception {
 		try {
 			// Verifica a existência da classe responsável pelo drive de conexão do postgresql
-			Class.forName("org.postgresql.Driver");
-			connection = DriverManager.getConnection(props.getProperty("url"), props);
+			Class.forName("org.hsqldb.jdbc.JDBCDriver");
+			connection = DriverManager.getConnection(props.getProperty("url"));
 		} catch (ClassNotFoundException | SQLException e) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao conectar com a base de dados.", e);
 			throw new Exception("Ocorreu um erro ao tentar conectar com a base de dados.", e);
@@ -104,10 +105,10 @@ public class DataSource {
 		int idValue = 0;
 		ResultSet rs = null;
 		try {
-			String query = "SELECT NEXTVAL('" + seqName + "') as ID_VAL";
+			String query = "call next value for " + seqName;
 			rs = this.executeQuery(query);
 			while (rs.next()) {
-				idValue = rs.getInt("ID_VAL");
+				idValue = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			Logger.getLogger(DataSource.class.getName()).log(Level.SEVERE, "Ocorreu um erro ao buscar o próximo valor da sequence: " + seqName + ".", e);
@@ -119,15 +120,13 @@ public class DataSource {
 	}
 
 	public void initDataBase() throws Exception {
-		boolean create = Boolean.valueOf(props.getProperty("eraseDB"));
-		if (create) {
+		boolean create = this.checkDatabaseExists();
+		if (!create) {
 			try {
 				String sqlInit
-					= "DROP SCHEMA IF EXISTS public CASCADE;\n"
-					+ "CREATE SCHEMA public AUTHORIZATION postgres;"
-					+ "CREATE SEQUENCE SQ_UNIDADE_EUCLIDIANA START 1;\n"
-					+ "CREATE SEQUENCE SQ_UNIDADE_MANHATTAN START 1;\n"
-					+ "CREATE SEQUENCE SQ_AREA_MONITORADA START 1;\n"
+					= "CREATE SEQUENCE SQ_UNIDADE_EUCLIDIANA START WITH 1;\n"
+					+ "CREATE SEQUENCE SQ_UNIDADE_MANHATTAN START WITH 1;\n"
+					+ "CREATE SEQUENCE SQ_AREA_MONITORADA START WITH 1;\n"
 					+ "CREATE TABLE AREA_MONITORADA(\n"
 					+ "  ID INTEGER NOT NULL,\n"
 					+ "  NOME VARCHAR(150) NOT NULL,\n"
@@ -139,8 +138,8 @@ public class DataSource {
 					+ "  MEDIDOR_CH4 BOOLEAN NOT NULL,\n"
 					+ "  MEDIDOR_CO2 BOOLEAN NOT NULL,\n"
 					+ "  TERMOMETRO BOOLEAN NOT NULL,\n"
-					+ "  LATITUDE INTEGER NOT NULL DEFAULT 0,\n"
-					+ "  LONGITUDE INTEGER NOT NULL DEFAULT 0,\n"
+					+ "  LATITUDE INTEGER NOT NULL,\n"
+					+ "  LONGITUDE INTEGER NOT NULL,\n"
 					+ "  ID_AREA_MONITORADA INTEGER NOT NULL,\n"
 					+ "  PRIMARY KEY (ID),\n"
 					+ "  FOREIGN KEY (ID_AREA_MONITORADA) REFERENCES AREA_MONITORADA (ID) ON DELETE CASCADE);\n"
@@ -151,8 +150,8 @@ public class DataSource {
 					+ "  MEDIDOR_CH4 BOOLEAN NOT NULL,\n"
 					+ "  MEDIDOR_CO2 BOOLEAN NOT NULL,\n"
 					+ "  TERMOMETRO BOOLEAN NOT NULL,\n"
-					+ "  LATITUDE INTEGER NOT NULL DEFAULT 0,\n"
-					+ "  LONGITUDE INTEGER NOT NULL DEFAULT 0,\n"
+					+ "  LATITUDE INTEGER NOT NULL,\n"
+					+ "  LONGITUDE INTEGER NOT NULL,\n"
 					+ "  ID_AREA_MONITORADA INTEGER NOT NULL,\n"
 					+ "  PRIMARY KEY (ID),\n"
 					+ "  FOREIGN KEY (ID_AREA_MONITORADA) REFERENCES AREA_MONITORADA (ID) ON DELETE CASCADE);";
@@ -162,6 +161,18 @@ public class DataSource {
 				throw new Exception("Ocorreu um erro ao tentar inicializar a 'Base de dados'.", e);
 			}
 		}
+	}
+
+	private boolean checkDatabaseExists() throws Exception {
+		createConnection();
+		DatabaseMetaData meta = connection.getMetaData();
+		ResultSet res = meta.getTables(null, null, "AREA_MONITORADA", new String[] { "TABLE" });
+		boolean exists = false;
+		while (res.next()) {
+			exists = true;
+			break;
+		}
+		return exists;
 	}
 
 }

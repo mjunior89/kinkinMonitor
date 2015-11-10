@@ -1,9 +1,12 @@
 package br.hue.hue.inf008.kinkinmonitor.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.hue.hue.inf008.kinkinmonitor.model.AreaMonitorada;
 import br.hue.hue.inf008.kinkinmonitor.model.UnidadeEuclidiana;
+import br.hue.hue.inf008.kinkinmonitor.model.UnidadeMonitora;
 import br.hue.hue.inf008.kinkinmonitor.persistence.UnidadeEuclidianaDAO;
-import java.util.List;
 
 public class UnidadeEuclidianaController implements IController<UnidadeEuclidiana> {
 
@@ -19,11 +22,17 @@ public class UnidadeEuclidianaController implements IController<UnidadeEuclidian
 	}
 
 	public List<UnidadeEuclidiana> listAllByAreaMonitorada(AreaMonitorada areaSelecionada) throws Exception {
+		if (areaSelecionada == null || areaSelecionada.getId() == 0) {
+			throw new Exception("Área Monitorada deve ser informada.");
+		}
 		return this.dao.listAllByAreaMonitorada(areaSelecionada);
 	}
 
 	@Override
 	public UnidadeEuclidiana findById(String nome) throws Exception {
+		if (nome == null || nome.isEmpty()) {
+			throw new Exception("Identificador deve ser preenchido.");
+		}
 		return this.dao.findByNome(nome);
 	}
 
@@ -32,17 +41,35 @@ public class UnidadeEuclidianaController implements IController<UnidadeEuclidian
 		if (domain.getNome() == null || domain.getNome().isEmpty()) {
 			throw new Exception("Identificador deve ser preenchido.");
 		}
+		verificarLocalizacaoMonitorada(domain);
 		return this.dao.insert(domain);
 	}
 
 	@Override
 	public int update(UnidadeEuclidiana domain) throws Exception {
+		if (domain.getNome() == null || domain.getNome().isEmpty()) {
+			throw new Exception("Identificador deve ser preenchido.");
+		}
+		verificarLocalizacaoMonitorada(domain);
 		return this.dao.update(domain);
 	}
 
 	@Override
 	public int delete(UnidadeEuclidiana domain) throws Exception {
+		if (domain == null || domain.getId() == 0) {
+			throw new Exception("Unidade Monitora deve ser informada.");
+		}
 		return this.dao.delete(domain);
 	}
 
+	private void verificarLocalizacaoMonitorada(UnidadeEuclidiana domain) throws Exception {
+		List<UnidadeMonitora> unidades = new ArrayList<>();
+		unidades.addAll(this.listAllByAreaMonitorada(domain.getAreaMonitorada()));
+		unidades.addAll(new UnidadeManhattanController().listAllByAreaMonitorada(domain.getAreaMonitorada()));
+		for (UnidadeMonitora unit : unidades) {
+			if (unit.getLocalizacao().equals(domain.getLocalizacao()) && !unit.equals(domain)) {
+				throw new Exception("Localização já monitorada. Lat.: " + domain.getLocalizacao().getLatitude() + ", Long.:" + domain.getLocalizacao().getLongitude() + ".");
+			}
+		}
+	}
 }

@@ -1,15 +1,16 @@
 package br.hue.hue.inf008.kinkinmonitor.persistence;
 
-import br.hue.hue.inf008.kinkinmonitor.model.AreaMonitorada;
-import br.hue.hue.inf008.kinkinmonitor.model.UnidadeEuclidiana;
-import br.hue.hue.inf008.kinkinmonitor.utils.PontoLocalizacao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
+import br.hue.hue.inf008.kinkinmonitor.model.AreaMonitorada;
+import br.hue.hue.inf008.kinkinmonitor.model.UnidadeEuclidiana;
+import br.hue.hue.inf008.kinkinmonitor.utils.PontoLocalizacao;
+
+public class UnidadeEuclidianaDAO implements GenericDAO<UnidadeEuclidiana> {
 
 	@Override
 	public List<UnidadeEuclidiana> listAll() throws Exception {
@@ -103,24 +104,22 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 		int retorno = 0;
 		try {
 			unidadeEuclidiana.setId(ds.fetchNextIdSequence(UnidadeEuclidiana.SEQUENCE));
-			String sql
-				= "INSERT INTO UNIDADE_EUCLIDIANA (ID, NOME, CAMERA, MEDIDOR_CH4, MEDIDOR_CO2, TERMOMETRO, LATITUDE, LONGITUDE, ID_AREA_MONITORADA) VALUES("
-				+ unidadeEuclidiana.getId()
-				+ ", '" + unidadeEuclidiana.getNome() + "'"
-				+ ", " + unidadeEuclidiana.isCamera()
-				+ ", " + unidadeEuclidiana.isMedidorCH4()
-				+ ", " + unidadeEuclidiana.isMedidorCO2()
-				+ ", " + unidadeEuclidiana.isTermometro();
+			String sql = "INSERT INTO UNIDADE_EUCLIDIANA (ID, NOME, CAMERA, MEDIDOR_CH4, MEDIDOR_CO2, TERMOMETRO, LATITUDE, LONGITUDE, ID_AREA_MONITORADA) VALUES("
+					+ unidadeEuclidiana.getId() + ", '"
+					+ unidadeEuclidiana.getNome() + "', "
+					+ unidadeEuclidiana.isCamera() + ", "
+					+ unidadeEuclidiana.isMedidorCH4() + ", "
+					+ unidadeEuclidiana.isMedidorCO2() + ", "
+					+ unidadeEuclidiana.isTermometro();
 			if (unidadeEuclidiana.getLocalizacao() != null) {
-				sql += ", " + unidadeEuclidiana.getLocalizacao().getLatitude()
-					+ ", " + unidadeEuclidiana.getLocalizacao().getLongitude();
+				sql += ", " + unidadeEuclidiana.getLocalizacao().getLatitude() + ", " + unidadeEuclidiana.getLocalizacao().getLongitude();
 			} else {
-				throw new Exception(); // Exception impedindo nullidade do campo
+				throw new Exception("Erro na criação da Unidade Monitora, Localização não informada."); // Exception impedindo nullidade do campo
 			}
-			if (unidadeEuclidiana.getLocalizacao() != null) {
+			if (unidadeEuclidiana.getAreaMonitorada() != null) {
 				sql += ", " + unidadeEuclidiana.getAreaMonitorada().getId();
 			} else {
-				throw new Exception(); // Exception impedindo nullidade do campo
+				throw new Exception("Erro na criação da Unidade Monitora, Área Monitorada não selecionada."); // Exception impedindo nullidade do campo
 			}
 			sql += ")";
 			retorno = ds.executeUpdate(sql);
@@ -139,22 +138,21 @@ public class UnidadeEuclidianaDAO extends GenericDAO<UnidadeEuclidiana> {
 		ResultSet rs = null;
 		int retorno = 0;
 		try {
-			String sql
-				= "UPDATE UNIDADE_EUCLIDIANA SET NOME = '" + unidadeEuclidiana.getNome() + "'"
-				+ ", CAMERA = " + unidadeEuclidiana.isCamera()
-				+ ", MEDIDOR_CH4 = " + unidadeEuclidiana.isMedidorCH4()
-				+ ", MEDIDOR_CO2 = " + unidadeEuclidiana.isMedidorCO2()
-				+ ", TERMOMETRO = " + unidadeEuclidiana.isTermometro();
+			String sql = "UPDATE UNIDADE_EUCLIDIANA SET NOME = '"
+					+ unidadeEuclidiana.getNome() + "'"+ ", CAMERA = "
+					+ unidadeEuclidiana.isCamera() + ", MEDIDOR_CH4 = "
+					+ unidadeEuclidiana.isMedidorCH4() + ", MEDIDOR_CO2 = "
+					+ unidadeEuclidiana.isMedidorCO2() + ", TERMOMETRO = "
+					+ unidadeEuclidiana.isTermometro();
 			if (unidadeEuclidiana.getLocalizacao() != null) {
-				sql += ", LATITUDE = " + unidadeEuclidiana.getLocalizacao().getLatitude()
-					+ ", LONGITUDE = " + unidadeEuclidiana.getLocalizacao().getLongitude();
+				sql += ", LATITUDE = " + unidadeEuclidiana.getLocalizacao().getLatitude() + ", LONGITUDE = " + unidadeEuclidiana.getLocalizacao().getLongitude();
 			} else {
-				throw new Exception(); // Exception impedindo nullidade do campo
+				throw new Exception("Erro na criação da Unidade Monitora, Localização não informada."); // Exception impedindo nullidade do campo
 			}
 			if (unidadeEuclidiana.getAreaMonitorada() != null) {
 				sql += ", ID_AREA_MONITORADA = " + unidadeEuclidiana.getAreaMonitorada().getId();
 			} else {
-				throw new Exception(); // Exception impedindo nullidade do campo
+				throw new Exception("Erro na criação da Unidade Monitora, Área Monitorada não selecionada."); // Exception impedindo nullidade do campo
 			}
 			sql += " WHERE ID = " + unidadeEuclidiana.getId();
 			retorno = ds.executeUpdate(sql);

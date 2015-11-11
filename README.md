@@ -1,7 +1,5 @@
 # Kinkin Monitor
 
-* Projeto Java destinado à matéria de POO
-
 Requisitos mínimos:
 ------------------------------
 
